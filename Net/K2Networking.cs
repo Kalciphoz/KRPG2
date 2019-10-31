@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Runtime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,6 +12,7 @@ using Terraria.Localization;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using System.Runtime.Serialization;
 
 namespace KRPG2.Net
 {
@@ -21,6 +23,44 @@ namespace KRPG2.Net
 
         private static Dictionary<Type, int> messageHandlerID;
         private static K2Message[] handlers;
+
+        public static void Init()
+        {
+            var list = new List<K2Message>();
+            messageHandlerID = new Dictionary<Type, int>();
+
+            foreach (var type in KRPG2.assemblyTypes)
+            {
+                if (type.IsAbstract || !typeof(K2Message).IsAssignableFrom(type)) continue;
+
+                list.Add((K2Message)FormatterServices.GetUninitializedObject(type));
+            }
+
+            handlers = list.OrderBy(h => h.GetType().Name).ToArray();
+
+            int handlerCount = handlers.Length;
+
+            for (int i = 0; i < handlerCount; i += 1)
+            {
+                var handler = handlers[i];
+                messageHandlerID[handler.GetType()] = handler.id = i;
+            }
+
+            if (handlerCount < byte.MaxValue)
+            {
+                idWriter = (w, value) => w.Write((byte)value);
+                idReader = r => r.ReadByte();
+            }
+            else if (handlerCount < ushort.MaxValue)
+            {
+                idWriter = (w, value) => w.Write((ushort)value);
+                idReader = r => r.ReadUInt16();
+            }
+            else
+            {
+                throw new Exception($"Too many message handlers! {handlerCount} message handlers were found, but only {ushort.MaxValue} are supported.");
+            }
+        }
 
         public static void HandlePacket(KRPG2 krpg2, BinaryReader reader, int sender)
         {

@@ -194,7 +194,22 @@ namespace KRPG2.Net
                 int messageSpecificDataSize = (int)(pos - messageSpecificDataStart);
                 int packetSize = packetHeaderSize + messageSpecificDataSize;
 
-                //EXPAND!
+                Action<BinaryWriter> a = w =>
+                {
+                    //Rewrite entities (the way player is written will change depending if we are them or not)
+                    WritePacket(w, out _, true);
+
+                    if (messageSpecificDataSize > 0)
+                    {
+                        long sPos = w.BaseStream.Position;
+                        stream.Seek(messageSpecificDataStart, SeekOrigin.Begin);
+                        stream.CopyTo(w.BaseStream, messageSpecificDataSize);
+                        stream.Seek(pos, SeekOrigin.Begin);
+
+                        w.BaseStream.Seek(sPos + messageSpecificDataSize, SeekOrigin.Begin);
+                    }
+                };
+                K2Networking.SendPacket(krpg2, id, a, packetSize, ignoreClient: sender);
             }
 
             ClearEntityFields();
