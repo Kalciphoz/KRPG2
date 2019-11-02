@@ -74,13 +74,13 @@ namespace KRPG2.Net
 
             var handler = handlers[messageID];
 
-            if (Main.netMode == NetmodeID.Server && !handler.CanBeSentByClients)
+            if (Main.netMode == NetmodeID.Server && !handler.canBeSentByClients)
             {
                 NetMessage.BootPlayer(sender, NetworkText.FromLiteral($"Your client has sent packet '{handler.GetType().Name}', which can only be sent by the server."));
                 return;
             }
 
-            if (handler.IsLogged) krpg2.Log($"Received message '{handler.GetType().Name}' from {(sender == 256 ? "server" : sender.ToString())}");
+            if (handler.isLogged) krpg2.Log($"Received message '{handler.GetType().Name}' from {(sender == 256 ? "server" : sender.ToString())}");
 
             try
             {

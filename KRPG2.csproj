@@ -13,7 +13,4 @@
   <ItemGroup>
     <Compile Remove="K2Message.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="K2Main.cs" />
-  </ItemGroup>
 </Project>

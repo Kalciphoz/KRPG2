@@ -36,7 +36,7 @@ namespace KRPG2.Net
             K2Projectile = 512 | Projectile
         }
 
-        public readonly KRPG2 krpg2;
+        protected readonly KRPG2 krpg2;
 
         public readonly int packetSize;
 
@@ -44,27 +44,27 @@ namespace KRPG2.Net
 
         public int id;
 
-        public Player player;
-        public K2Player k2player;
+        protected Player player;
+        protected K2Player k2player;
 
-        public Item playerItem;
-        public K2Item playerK2item;
+        protected Item playerItem;
+        protected K2Item playerK2item;
 
-        public Item item;
-        public K2Item k2item;
+        protected Item item;
+        protected K2Item k2item;
 
-        public NPC npc;
-        public K2NPC k2npc;
+        protected NPC npc;
+        protected K2NPC k2npc;
 
-        public Projectile projectile;
-        public K2Projectile k2projectile;
+        protected Projectile projectile;
+        protected K2Projectile k2projectile;
 
-        public abstract bool ResendPacket { get; }
-        public abstract Requirements Reqs { get; }
+        public abstract bool resendPacket { get; }
+        public abstract Requirements reqs { get; }
 
-        public virtual bool IsLogged => false;
-        public virtual bool CanBeSentByClients => true;
-        public virtual bool PlayerIsNotTheSender => false;
+        public virtual bool isLogged => false;
+        public virtual bool canBeSentByClients => true;
+        public virtual bool playerIsNotTheSender => false;
 
         protected K2Message(KRPG2 krpg2, Action<BinaryWriter> writeAction, Player player = null, NPC npc = null, Item item = null, Projectile projectile = null, int packetSize = 256)
         {
@@ -78,7 +78,7 @@ namespace KRPG2.Net
             this.projectile = projectile;
         }
 
-        public abstract void Read(BinaryReader reader, int sender);
+        protected abstract void Read(BinaryReader reader, int sender);
 
         public void WritePacket(BinaryWriter writer, out int packetHeaderSize, bool skipAction = false)
         {
@@ -99,12 +99,12 @@ namespace KRPG2.Net
                     throw new ArgumentException($"Unexpected argument: '{argName}'.");
             }
 
-            if (PlayerIsNotTheSender || Main.netMode == NetmodeID.Server)
-                Write(Reqs.HasFlag(Requirements.Player), player, nameof(player), true, ref packetHeaderSize);
+            if (playerIsNotTheSender || Main.netMode == NetmodeID.Server)
+                Write(reqs.HasFlag(Requirements.Player), player, nameof(player), true, ref packetHeaderSize);
 
-            Write(Reqs.HasFlag(Requirements.Item), item, nameof(item), false, ref packetHeaderSize);
-            Write(Reqs.HasFlag(Requirements.NPC), npc, nameof(npc), false, ref packetHeaderSize);
-            Write(Reqs.HasFlag(Requirements.Projectile), projectile, nameof(projectile), false, ref packetHeaderSize);
+            Write(reqs.HasFlag(Requirements.Item), item, nameof(item), false, ref packetHeaderSize);
+            Write(reqs.HasFlag(Requirements.NPC), npc, nameof(npc), false, ref packetHeaderSize);
+            Write(reqs.HasFlag(Requirements.Projectile), projectile, nameof(projectile), false, ref packetHeaderSize);
 
             if (!skipAction && writer != null) writeAction?.Invoke(writer);
         }
@@ -128,52 +128,52 @@ namespace KRPG2.Net
                 return null;
             }
 
-            switch (TryRead(Reqs.HasFlag(Requirements.Player), Main.player, out player, true, (isFromServer || PlayerIsNotTheSender) ? (int?)null : sender))
+            switch (TryRead(reqs.HasFlag(Requirements.Player), Main.player, out player, true, (isFromServer || playerIsNotTheSender) ? (int?)null : sender))
             {
                 case false: return;
 
                 case true:
-                    if (Reqs.HasFlag(Requirements.K2Player))
+                    if (reqs.HasFlag(Requirements.K2Player))
                         k2player = player.GetModPlayer<K2Player>();
 
-                    switch (TryRead(Reqs.HasFlag(Requirements.PlayerItem), player.inventory, out playerItem))
+                    switch (TryRead(reqs.HasFlag(Requirements.PlayerItem), player.inventory, out playerItem))
                     {
                         case false: return;
 
                         case true:
-                            if (Reqs.HasFlag(Requirements.PlayerK2Item))
+                            if (reqs.HasFlag(Requirements.PlayerK2Item))
                                 playerK2item = (K2Item)item.modItem;
                             break;
                     }
                     break;
             }
 
-            switch (TryRead(Reqs.HasFlag(Requirements.Item), Main.item, out item))
+            switch (TryRead(reqs.HasFlag(Requirements.Item), Main.item, out item))
             {
                 case false: return;
 
                 case true:
-                    if (Reqs.HasFlag(Requirements.K2Item))
+                    if (reqs.HasFlag(Requirements.K2Item))
                         k2item = (K2Item)item.modItem;
                     break;
             }
 
-            switch (TryRead(Reqs.HasFlag(Requirements.NPC), Main.npc, out npc))
+            switch (TryRead(reqs.HasFlag(Requirements.NPC), Main.npc, out npc))
             {
                 case false: return;
 
                 case true:
-                    if (Reqs.HasFlag(Requirements.K2NPC))
+                    if (reqs.HasFlag(Requirements.K2NPC))
                         k2npc = (K2NPC)npc.modNPC;
                     break;
             }
 
-            switch (TryRead(Reqs.HasFlag(Requirements.Projectile), Main.projectile, out projectile))
+            switch (TryRead(reqs.HasFlag(Requirements.Projectile), Main.projectile, out projectile))
             {
                 case false: return;
 
                 case true:
-                    if (Reqs.HasFlag(Requirements.K2Projectile))
+                    if (reqs.HasFlag(Requirements.K2Projectile))
                         k2projectile = (K2Projectile)projectile.modProjectile;
                     break;
             }
@@ -183,7 +183,7 @@ namespace KRPG2.Net
             Read(reader, sender);
 
             //Packet resending
-            if (Main.netMode == NetmodeID.Server && ResendPacket)
+            if (Main.netMode == NetmodeID.Server && resendPacket)
             {
                 var stream = reader.BaseStream;
                 if (!stream.CanSeek)
@@ -215,7 +215,7 @@ namespace KRPG2.Net
             ClearEntityFields();
         }
 
-        public void ClearEntityFields()
+        private void ClearEntityFields()
         {
             player = null;
             k2player = null;
