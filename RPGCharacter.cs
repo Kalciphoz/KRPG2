@@ -26,7 +26,7 @@ namespace KRPG2
             this.k2player = k2player;
         }
 
-        public long ExperienceToLevel()
+        public long XPToLevel()
         {
             var lv = (long)Level;
             if (Level <= 5)

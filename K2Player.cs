@@ -18,7 +18,9 @@ namespace KRPG2
     {
         public readonly RPGCharacter character;
 
-        private readonly StatusBar statusBar;
+        private StatusBar statusBar;
+
+        private bool initializedGUI = false;
 
         public static List<Player> GetActivePlayers()
         {
@@ -36,11 +38,22 @@ namespace KRPG2
         public K2Player() : base()
         {
             character = new RPGCharacter(this);
+        }
 
+        public override void PostUpdate()
+        {
+            if (!initializedGUI)
+                InitializeGUI();
+        }
+
+        private void InitializeGUI()
+        {
             if (Main.netMode != NetmodeID.Server)
             {
                 statusBar = new StatusBar(this);
             }
+
+            initializedGUI = true;
         }
     }
 }

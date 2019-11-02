@@ -22,6 +22,7 @@ namespace KRPG2.GUI
         protected readonly K2Player k2player;
         protected readonly KRPG2 krpg2;
         protected Player Player => k2player.player;
+        protected RPGCharacter Character => k2player.character;
 
         protected virtual bool DoDraw => Active;
 
