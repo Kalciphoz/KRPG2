@@ -13,7 +13,7 @@ using Terraria.ModLoader.IO;
 
 namespace KRPG2
 {
-    public class K2Item : ModItem
+    public class K2Item : GlobalItem
     {
     }
 }

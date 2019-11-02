@@ -12,6 +12,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using KRPG2.Net;
+using KRPG2.GUI;
 
 namespace KRPG2
 {
@@ -23,6 +24,12 @@ namespace KRPG2
         {
             AssemblyTypes = Assembly.GetExecutingAssembly().GetTypes();
             K2Networking.Init();
+        }
+
+        public override void PostDrawInterface(SpriteBatch spriteBatch)
+        {
+            if (Main.netMode != NetmodeID.Server)
+                BaseGUI.DrawGUIElements(spriteBatch);
         }
     }
 }

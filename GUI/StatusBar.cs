@@ -17,11 +17,17 @@ namespace KRPG2.GUI
     {
         private RPGCharacter Character => k2player.character;
 
+        public override bool Active => true;
+
         private Vector2 Origin => new Vector2(4f, 6f) * Scale;
 
         private Texture2D StatusFrame => GFX.GetGUI(krpg2, "StatusBar/StatusFrame");
 
         internal StatusBar(K2Player k2player) : base(k2player)
+        {
+        }
+
+        protected override void Update()
         {
         }
 

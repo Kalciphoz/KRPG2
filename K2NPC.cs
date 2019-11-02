@@ -13,7 +13,7 @@ using Terraria.ModLoader.IO;
 
 namespace KRPG2
 {
-    public class K2NPC : ModNPC
+    public class K2NPC : GlobalNPC
     {
     }
 }

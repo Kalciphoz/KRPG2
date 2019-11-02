@@ -18,6 +18,8 @@ namespace KRPG2
     {
         public readonly RPGCharacter character;
 
+        private readonly StatusBar statusBar;
+
         public static List<Player> GetActivePlayers()
         {
             var list = new List<Player>();
@@ -35,6 +37,10 @@ namespace KRPG2
         {
             character = new RPGCharacter(this);
 
+            if (Main.netMode != NetmodeID.Server)
+            {
+                statusBar = new StatusBar(this);
+            }
         }
     }
 }

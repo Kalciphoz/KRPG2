@@ -16,7 +16,8 @@ namespace KRPG2.GUI
     public abstract class BaseGUI
     {
         private static List<BaseGUI> gui_elements = new List<BaseGUI>();
-        public bool Active { get; protected set; } = false;
+        public virtual bool Active { get; protected set; } = false;
+        protected virtual bool DoDraw => Active;
 
         protected readonly K2Player k2player;
         protected Player Player => k2player.player;
@@ -25,7 +26,7 @@ namespace KRPG2.GUI
         public BaseGUI(K2Player k2player)
         {
             this.k2player = k2player;
-            this.krpg2 = (KRPG2)k2player.mod;
+            this.krpg2 = (KRPG2)ModLoader.GetMod("KRPG2");
             gui_elements.Add(this);
         }
 
@@ -34,8 +35,24 @@ namespace KRPG2.GUI
             return gui_elements.ToList();
         }
 
+        public static void UpdateGUIElements()
+        {
+            foreach (BaseGUI gui in gui_elements)
+                if (gui.Active)
+                    gui.Update();
+        }
+
+        protected abstract void Update();
+
+        public static void DrawGUIElements(SpriteBatch spriteBatch)
+        {
+            foreach (BaseGUI gui in gui_elements)
+                if (gui.DoDraw)
+                    gui.Draw(spriteBatch);
+        }
+
         protected abstract void Draw(SpriteBatch spriteBatch);
 
-        protected float Scale => Main.UIScale * Math.Min(1f, Main.screenWidth / 1920 * 0.9f);
+        protected float Scale => Main.UIScale * Math.Min(1f, Main.screenWidth / 1920f);
     }
 }

@@ -142,7 +142,7 @@ namespace KRPG2.Net
 
                         case true:
                             if (reqs.HasFlag(Requirements.PlayerK2Item))
-                                playerK2item = (K2Item)item.modItem;
+                                playerK2item = (K2Item)item.GetGlobalItem<K2Item>();
                             break;
                     }
                     break;
@@ -154,7 +154,7 @@ namespace KRPG2.Net
 
                 case true:
                     if (reqs.HasFlag(Requirements.K2Item))
-                        k2item = (K2Item)item.modItem;
+                        k2item = (K2Item)item.GetGlobalItem<K2Item>();
                     break;
             }
 
@@ -164,7 +164,7 @@ namespace KRPG2.Net
 
                 case true:
                     if (reqs.HasFlag(Requirements.K2NPC))
-                        k2npc = (K2NPC)npc.modNPC;
+                        k2npc = (K2NPC)npc.GetGlobalNPC<K2NPC>();
                     break;
             }
 
@@ -174,7 +174,7 @@ namespace KRPG2.Net
 
                 case true:
                     if (reqs.HasFlag(Requirements.K2Projectile))
-                        k2projectile = (K2Projectile)projectile.modProjectile;
+                        k2projectile = (K2Projectile)projectile.GetGlobalProjectile<K2Projectile>();
                     break;
             }
 

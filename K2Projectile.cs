@@ -13,7 +13,7 @@ using Terraria.ModLoader.IO;
 
 namespace KRPG2
 {
-    public class K2Projectile : ModProjectile
+    public class K2Projectile : GlobalProjectile
     {
     }
 }
