@@ -16,7 +16,7 @@ using System.Runtime.Serialization;
 
 namespace KRPG2.Net
 {
-    public class K2Networking
+    internal class K2Networking
     {
         private static Action<BinaryWriter, int> idWriter;
         private static Func<BinaryReader, int> idReader;
@@ -29,7 +29,7 @@ namespace KRPG2.Net
             var list = new List<K2Message>();
             messageHandlerID = new Dictionary<Type, int>();
 
-            foreach (var type in KRPG2.assemblyTypes)
+            foreach (var type in KRPG2.AssemblyTypes)
             {
                 if (type.IsAbstract || !typeof(K2Message).IsAssignableFrom(type)) continue;
 

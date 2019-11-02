@@ -1,9 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,18 +10,14 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using KRPG2.Net;
 
 namespace KRPG2
 {
-	public class KRPG2 : Mod
-	{
-        public static Type[] AssemblyTypes { get; private set; }
-
-		public KRPG2()
+    public static class API
+    {
+        public static void Draw(this SpriteBatch spriteBatch, Texture2D texture, Vector2 position, float scale)
         {
-            AssemblyTypes = Assembly.GetExecutingAssembly().GetTypes();
-            K2Networking.Init();
+            spriteBatch.Draw(texture, position, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
         }
     }
 }

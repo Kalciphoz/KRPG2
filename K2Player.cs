@@ -10,11 +10,14 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using KRPG2.GUI;
 
 namespace KRPG2
 {
     public class K2Player : ModPlayer
     {
+        public readonly RPGCharacter character;
+
         public static List<Player> GetActivePlayers()
         {
             var list = new List<Player>();
@@ -26,6 +29,12 @@ namespace KRPG2
                         list.Add(player);
             }
             return list;
+        }
+
+        public K2Player() : base()
+        {
+            character = new RPGCharacter(this);
+
         }
     }
 }
