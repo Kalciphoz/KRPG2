@@ -36,13 +36,20 @@ namespace KRPG2.Net
             K2Projectile = 512 | Projectile
         }
 
-        protected readonly KRPG2 krpg2;
-
         public readonly int packetSize;
 
-        private readonly Action<BinaryWriter> writeAction;
-
         public int id;
+
+        public abstract bool resendPacket { get; }
+        public abstract Requirements reqs { get; }
+
+        public virtual bool isLogged => false;
+        public virtual bool canBeSentByClients => true;
+        public virtual bool playerIsNotTheSender => false;
+
+        protected readonly KRPG2 krpg2;
+
+        private readonly Action<BinaryWriter> writeAction;
 
         protected Player player;
         protected K2Player k2player;
@@ -59,26 +66,17 @@ namespace KRPG2.Net
         protected Projectile projectile;
         protected K2Projectile k2projectile;
 
-        public abstract bool resendPacket { get; }
-        public abstract Requirements reqs { get; }
-
-        public virtual bool isLogged => false;
-        public virtual bool canBeSentByClients => true;
-        public virtual bool playerIsNotTheSender => false;
-
         protected K2Message(KRPG2 krpg2, Action<BinaryWriter> writeAction, Player player = null, NPC npc = null, Item item = null, Projectile projectile = null, int packetSize = 256)
         {
             this.krpg2 = krpg2;
             this.packetSize = packetSize;
             this.writeAction = writeAction;
-            
+
             this.player = player;
             this.npc = npc;
             this.item = item;
             this.projectile = projectile;
         }
-
-        protected abstract void Read(BinaryReader reader, int sender);
 
         public void WritePacket(BinaryWriter writer, out int packetHeaderSize, bool skipAction = false)
         {
@@ -228,5 +226,7 @@ namespace KRPG2.Net
             projectile = null;
             k2projectile = null;
         }
+
+        protected abstract void Read(BinaryReader reader, int sender);
     }
 }

@@ -12,7 +12,14 @@ namespace KRPG2
 {
     public static class GFX
     {
+        private const string PATH_GUI = "GFX/GUI/";
+
         private static Dictionary<string, Texture2D> texturesByPath = new Dictionary<string, Texture2D>();
+
+        public static Texture2D GetGUI(KRPG2 krpg2, string filename)
+        {
+            return GetTexture(krpg2, PATH_GUI + filename);
+        }
 
         private static Texture2D GetTexture(KRPG2 krpg2, string path)
         {
@@ -34,13 +41,6 @@ namespace KRPG2
                 texturesByPath.Add(path, texture);
             }
             return texturesByPath[path];
-        }
-
-        private const string PATH_GUI = "GFX/GUI/";
-
-        public static Texture2D GetGUI(KRPG2 krpg2, string filename)
-        {
-            return GetTexture(krpg2, PATH_GUI + filename);
         }
     }
 }

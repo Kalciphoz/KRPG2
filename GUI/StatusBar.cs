@@ -15,13 +15,17 @@ namespace KRPG2.GUI
 {
     internal class StatusBar : BaseGUI
     {
-        private RPGCharacter Character => k2player.character;
+        public override bool Active => !Main.playerInventory;
 
-        public override bool Active => true;
+        private RPGCharacter Character => k2player.character;
 
         private Vector2 Origin => new Vector2(4f, 6f) * Scale;
 
-        private Texture2D StatusFrame => GFX.GetGUI(krpg2, "StatusBar/StatusFrame");
+        private Texture2D Frame => GetTexture("Frame");
+        private Texture2D Background => GetTexture("Background");
+        private Texture Bars => GetTexture("Bars");
+
+        private Texture2D GetTexture(string texture) => GFX.GetGUI(krpg2, "StatusBar/" + texture);
 
         internal StatusBar(K2Player k2player) : base(k2player)
         {
@@ -35,7 +39,8 @@ namespace KRPG2.GUI
         {
             Vector2 position = Origin;
 
-            spriteBatch.Draw(StatusFrame, position, Scale);
+            spriteBatch.Draw(Background, position, Scale);
+            spriteBatch.Draw(Frame, position, Scale);
         }
     }
 }

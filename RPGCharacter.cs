@@ -19,7 +19,7 @@ namespace KRPG2
         public Player Player => k2player.player;
 
         public int Level { get; private set; } = 1;
-        private long XP = 0;
+        public long XP { get; private set; } = 0;
 
         public RPGCharacter(K2Player k2player)
         {

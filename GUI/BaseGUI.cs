@@ -15,13 +15,17 @@ namespace KRPG2.GUI
 {
     public abstract class BaseGUI
     {
-        private static List<BaseGUI> gui_elements = new List<BaseGUI>();
         public virtual bool Active { get; protected set; } = false;
-        protected virtual bool DoDraw => Active;
+
+        private static List<BaseGUI> gui_elements = new List<BaseGUI>();
 
         protected readonly K2Player k2player;
-        protected Player Player => k2player.player;
         protected readonly KRPG2 krpg2;
+        protected Player Player => k2player.player;
+
+        protected virtual bool DoDraw => Active;
+
+        protected float Scale => Main.UIScale * Math.Min(1f, Main.screenWidth / 1920f);
 
         public BaseGUI(K2Player k2player)
         {
@@ -42,8 +46,6 @@ namespace KRPG2.GUI
                     gui.Update();
         }
 
-        protected abstract void Update();
-
         public static void DrawGUIElements(SpriteBatch spriteBatch)
         {
             foreach (BaseGUI gui in gui_elements)
@@ -51,8 +53,8 @@ namespace KRPG2.GUI
                     gui.Draw(spriteBatch);
         }
 
-        protected abstract void Draw(SpriteBatch spriteBatch);
+        protected abstract void Update();
 
-        protected float Scale => Main.UIScale * Math.Min(1f, Main.screenWidth / 1920f);
+        protected abstract void Draw(SpriteBatch spriteBatch);
     }
 }

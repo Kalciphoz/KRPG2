@@ -131,9 +131,9 @@ namespace KRPG2.Net
                     }
                 }
             }
-            catch (Exception E)
+            catch (Exception e)
             {
-                throw E;
+                throw e;
             }
         }
     }
