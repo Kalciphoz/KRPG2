@@ -123,90 +123,90 @@ namespace KRPG2.Inventory
             }
 
             return false;
-
         }
 
         private Item GetItem(Item item)
         {
-            bool isCoin = item.type >= 71 && item.type <= 74;
+            bool isCoin = item.type >= ItemID.CopperCoin && item.type <= ItemID.PlatinumCoin;
             int startSlot = 50;
             if (item.noGrabDelay > 0)
-            {
                 return item;
-            }
+            
             int num2 = 0;
             if (item.uniqueStack && Player.HasItem(item.type))
-            {
                 return item;
-            }
-            if (item.type >= ItemID.CopperCoin && item.type <= ItemID.PlatinumCoin)
+            
+            if (isCoin)
             {
                 num2 = -4;
                 startSlot = 54;
             }
+
             if (((item.ammo > 0 || item.bait > 0) && !item.notAmmo) || item.type == ItemID.Wire)
             {
                 item = Player.FillAmmo(Player.whoAmI, item);
                 if (item.type == 0 || item.stack == 0)
-                {
                     return new Item();
-                }
             }
+
             for (int i = num2; i < 50; i++)
             {
                 int num3 = i;
-                if (num3 < 0)
+                if (num3 < 0) num3 = 54 + i;
+                
+                if (TryPlaceItem(item, ref Player.inventory[num3], isCoin, true))
                 {
-                    num3 = 54 + i;
+                    if (isCoin) Player.DoCoins(num3);
+                    return new Item();
                 }
-                if (TryPlaceItem(item, Player.inventory[num3], isCoin, true)) return new Item();
             }
+
             for (int i = 0; i < inventory.unlocked; i += 1)
-            {
                 if (k2player.inventory.ActivePage != i)
                 {
                     InventoryPage page = inventory.page[i];
                     for (int j = 0; j < page.item.Length; j += 1)
-                        if (TryPlaceItem(item, page.item[j], isCoin, true)) return new Item();
+                        if (TryPlaceItem(item, ref page.item[j], isCoin, true)) return new Item();
                 }
-            }
-            if ((item.type < ItemID.CopperCoin || item.type > ItemID.PlatinumCoin) && item.useStyle > 0)
-            {
+
+            if (!isCoin && item.useStyle > 0)
                 for (int j = 0; j < 10; j++)
-                {
-                    if (TryPlaceItem(item, Player.inventory[j], isCoin, true)) return new Item();
-                }
-            }
+                    if (TryPlaceItem(item, ref Player.inventory[j], isCoin, true)) return new Item();
+
             if (item.favorited)
             {
                 for (int k = 0; k < startSlot; k++)
-                {
                     if (k2player.inventory.ActivePage == 0 || isCoin)
-                        if (TryPlaceItem(item, Player.inventory[k], isCoin, false)) return new Item();
-                }
+                        if (TryPlaceItem(item, ref Player.inventory[k], isCoin, false))
+                        {
+                            if (isCoin) Player.DoCoins(k);
+                            return new Item();
+                        }
             }
+
             else
             {
                 for (int l = startSlot - 1; l >= 0; l--)
-                {
                     if (inventory.ActivePage == 0 || isCoin)
-                        if (TryPlaceItem(item, Player.inventory[l], isCoin, false)) return new Item();
-                }
+                        if (TryPlaceItem(item, ref Player.inventory[l], isCoin, false))
+                        {
+                            if (isCoin) Player.DoCoins(l);
+                            return new Item();
+                        }
 
                 for (int i = 0; i < inventory.unlocked; i += 1)
-                {
                     if (inventory.ActivePage != i)
                     {
                         InventoryPage page = inventory.page[i];
                         for (int j = 0; j < page.item.Length; j += 1)
-                            if (TryPlaceItem(item, page.item[j], isCoin, false)) return new Item();
+                            if (TryPlaceItem(item, ref page.item[j], isCoin, false)) return new Item();
                     }
-                }
             }
+
             return item;
         }
 
-        private bool TryPlaceItem(Item item, Item target, bool isCoin, bool incrementStack)
+        private bool TryPlaceItem(Item item, ref Item target, bool isCoin, bool incrementStack)
         {
             if (target.type == 0 && !incrementStack)
             {
