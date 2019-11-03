@@ -10,13 +10,19 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Terraria.GameContent.Achievements;
 
-namespace KRPG2
+namespace KRPG2.Inventory
 {
-    public class InventoryHandler
+    public class InventoryPage
     {
-        private K2Player k2player;
-        private Player Player => k2player.player;
-        private RPGCharacter Character => k2player.character;
+        public Item[] item = new Item[40];
+
+        private readonly int id;
+
+        public InventoryPage(int id)
+        {
+            this.id = id;
+        }
     }
 }

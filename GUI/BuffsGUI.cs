@@ -15,13 +15,11 @@ using System.Reflection;
 
 namespace KRPG2.GUI
 {
-    internal class Buffs : BaseGUI
+    internal class BuffsGUI : BaseGUI
     {
         public override bool Active => !Player.ghost;
 
-        public Buffs(K2Player k2player) : base(k2player) { }
-
-        protected override void Update() { }
+        public BuffsGUI(K2Player k2player) : base(k2player) { }
 
         private static MethodInfo DrawBuffIcon = typeof(Main).GetMethod("DrawBuffIcon", BindingFlags.NonPublic | BindingFlags.Static);
 

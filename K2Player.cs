@@ -11,6 +11,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using KRPG2.GUI;
+using KRPG2.Inventory;
 
 namespace KRPG2
 {
@@ -18,10 +19,10 @@ namespace KRPG2
     {
         public readonly RPGCharacter character;
 
-        public InventoryHandler inv;
+        public InventoryHandler inventory;
 
         private GUIHandler guiHandler;
-        private bool initializedGUI = false;
+        private bool initialized = false;
 
         public static List<Player> GetActivePlayers()
         {
@@ -41,14 +42,24 @@ namespace KRPG2
             character = new RPGCharacter(this);
         }
 
-        public override void PostUpdate()
+        public void Init()
         {
             if (Main.netMode != NetmodeID.Server)
-                if (!initializedGUI)
-                {
-                    guiHandler = new GUIHandler(this);
-                    initializedGUI = true;
-                }
+                guiHandler = new GUIHandler(this);
+
+            inventory = new InventoryHandler(this);
+            initialized = true;
+        }
+
+        public override void PostUpdate()
+        {
+            if (!initialized)
+                Init();
+
+            for (int i = 0; i < 40; i += 1)
+                inventory.page[inventory.ActivePage].item[i] = player.inventory[i + 10];
+
+            if (Main.mapTime % 60 == 0) API.FindRecipes();
         }
     }
 }

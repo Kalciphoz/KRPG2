@@ -47,8 +47,6 @@ namespace KRPG2.GUI
             Main.inventoryBack16Texture = slot;
         }
 
-        protected override void Update() { }
-
         protected override void Draw(SpriteBatch spriteBatch)
         {
             string text = "";

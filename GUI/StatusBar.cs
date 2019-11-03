@@ -45,8 +45,6 @@ namespace KRPG2.GUI
 
         internal StatusBar(K2Player k2player) : base(k2player) { }
 
-        protected override void Update() { }
-
         protected override void Draw(SpriteBatch spriteBatch)
         {
             Vector2 position = Origin;

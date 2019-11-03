@@ -22,7 +22,7 @@ using Terraria.GameContent.UI.States;
 
 namespace KRPG2.GUI
 {
-    internal partial class Inventory : BaseGUI
+    internal partial class InventoryGUI : BaseGUI
     {
         #pragma warning disable
 

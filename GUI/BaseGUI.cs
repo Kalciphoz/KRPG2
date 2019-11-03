@@ -10,11 +10,14 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using KRPG2.GUI.Buttons;
 
 namespace KRPG2.GUI
 {
     public abstract class BaseGUI
     {
+        public static float Scale => Main.UIScale * Math.Min(1f, Main.screenWidth / 1920f);
+
         public virtual bool Active { get; protected set; } = false;
 
         private static List<BaseGUI> gui_elements = new List<BaseGUI>();
@@ -26,13 +29,18 @@ namespace KRPG2.GUI
 
         protected virtual bool DoDraw => Active;
 
-        protected float Scale => Main.UIScale * Math.Min(1f, Main.screenWidth / 1920f);
+        protected List<Button> buttons = new List<Button>();
 
         public BaseGUI(K2Player k2player)
         {
             this.k2player = k2player;
             this.krpg2 = (KRPG2)ModLoader.GetMod("KRPG2");
             gui_elements.Add(this);
+        }
+
+        protected void AddButton(Button button)
+        {
+            buttons.Add(button);
         }
 
         public static List<BaseGUI> GetGUIElements()
@@ -51,10 +59,14 @@ namespace KRPG2.GUI
         {
             foreach (BaseGUI gui in gui_elements)
                 if (gui.DoDraw)
+                {
                     gui.Draw(spriteBatch);
+                    foreach (Button button in gui.buttons)
+                        button.Update(spriteBatch);
+                }
         }
 
-        protected abstract void Update();
+        protected virtual void Update() { }
 
         protected abstract void Draw(SpriteBatch spriteBatch);
     }

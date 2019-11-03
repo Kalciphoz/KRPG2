@@ -19,8 +19,8 @@ namespace KRPG2.GUI
 
         private readonly StatusBar statusBar;
         private readonly Hotbar hotbar;
-        private readonly Inventory inventory;
-        private  Buffs buffs;
+        private readonly InventoryGUI inventory;
+        private readonly BuffsGUI buffs;
 
         public GUIHandler(K2Player k2player)
         {
@@ -28,8 +28,8 @@ namespace KRPG2.GUI
 
             statusBar = new StatusBar(k2player);
             hotbar = new Hotbar(k2player);
-            inventory = new Inventory(k2player);
-            buffs = new Buffs(k2player);
+            inventory = new InventoryGUI(k2player);
+            buffs = new BuffsGUI(k2player);
 
             Hotbar.ReplaceTextures();
         }

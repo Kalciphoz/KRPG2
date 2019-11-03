@@ -25,7 +25,7 @@ namespace KRPG2
         static FieldInfo inventoryGlowTimeChest = typeof(ItemSlot).GetField("inventoryGlowTimeChest", BindingFlags.NonPublic | BindingFlags.Static);
         static FieldInfo inventoryGlowHueChest = typeof(ItemSlot).GetField("inventoryGlowHueChest", BindingFlags.NonPublic | BindingFlags.Static);
 
-        public static void ItemSlotDrawExtension(SpriteBatch spriteBatch, Item[] inv, int context, int slot, Vector2 position, Color overrideColor, Color lightColor = default(Color), bool drawSelected = true)
+        public static void ItemSlotDrawExtension(SpriteBatch spriteBatch, Item[] inv, int context, int slot, Vector2 position, Color overrideColor, Color lightColor = default, bool drawSelected = true)
         {
             Player player = Main.player[Main.myPlayer];
             Item item = inv[slot];
@@ -229,7 +229,7 @@ namespace KRPG2
             }
             if (!flag2)
             {
-                spriteBatch.Draw(slot == Main.player[Main.myPlayer].selectedItem && drawSelected ? Main.inventoryBack14Texture : texture2D, position, null, overrideColor, 0f, default(Vector2), inventoryScale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(slot == Main.player[Main.myPlayer].selectedItem && drawSelected ? Main.inventoryBack14Texture : texture2D, position, null, overrideColor, 0f, default, inventoryScale, SpriteEffects.None, 0f);
             }
             int num7 = -1;
             switch (context)
@@ -424,20 +424,20 @@ namespace KRPG2
                 {
                     Vector2 position3 = position + texture2D.Size() * inventoryScale / 2f - Main.cdTexture.Size() * inventoryScale / 2f;
                     Color color3 = item.GetAlpha(color) * ((float)player.potionDelay / (float)player.potionDelayTime);
-                    spriteBatch.Draw(Main.cdTexture, position3, null, color3, 0f, default(Vector2), num9, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(Main.cdTexture, position3, null, color3, 0f, default, num9, SpriteEffects.None, 0f);
                 }
                 if ((context == 10 || context == 18) && item.expertOnly && !Main.expertMode)
                 {
                     Vector2 position4 = position + texture2D.Size() * inventoryScale / 2f - Main.cdTexture.Size() * inventoryScale / 2f;
                     Color white = Color.White;
-                    spriteBatch.Draw(Main.cdTexture, position4, null, white, 0f, default(Vector2), num9, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(Main.cdTexture, position4, null, white, 0f, default, num9, SpriteEffects.None, 0f);
                 }
             }
             else if (context == 6)
             {
                 Texture2D trashTexture = Main.trashTexture;
                 Vector2 position5 = position + texture2D.Size() * inventoryScale / 2f - trashTexture.Size() * inventoryScale / 2f;
-                spriteBatch.Draw(trashTexture, position5, null, new Color(100, 100, 100, 100), 0f, default(Vector2), inventoryScale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(trashTexture, position5, null, new Color(100, 100, 100, 100), 0f, default, inventoryScale, SpriteEffects.None, 0f);
             }
             if (context == 0 && slot < 10)
             {
