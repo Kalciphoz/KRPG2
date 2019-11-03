@@ -11,6 +11,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using KRPG2.GFX;
 
 namespace KRPG2.GUI
 {
@@ -40,7 +41,7 @@ namespace KRPG2.GUI
         private Texture2D Background => GetTexture("Background");
         private Texture2D Bars => GetTexture("Bars");
 
-        private Texture2D GetTexture(string texture) => GFX.GetGUI(krpg2, "StatusBar/" + texture);
+        private Texture2D GetTexture(string texture) => GraphicsHandler.GetGUI(krpg2, "StatusBar/" + texture);
 
         internal StatusBar(K2Player k2player) : base(k2player) { }
 

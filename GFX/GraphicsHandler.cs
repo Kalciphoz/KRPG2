@@ -8,9 +8,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace KRPG2
+namespace KRPG2.GFX
 {
-    public static class GFX
+    public static class GraphicsHandler
     {
         private const string PATH_GUI = "GFX/GUI/";
 

@@ -15,8 +15,18 @@ using ReLogic.Graphics;
 
 namespace KRPG2
 {
-    public static class API
+    public static partial class API
     {
+        public static void FindRecipes()
+        {
+            Recipe.FindRecipes();
+        }
+
+        public static void CraftItem(Recipe r)
+        {
+            Main.CraftItem(r);
+        }
+
         public static void Draw(this SpriteBatch spriteBatch, Texture2D texture, Vector2 position, float scale)
         {
             spriteBatch.Draw(texture, position, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);

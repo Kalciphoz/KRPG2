@@ -12,6 +12,9 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.GameInput;
 using Terraria.UI;
+using Terraria.Localization;
+using System.Reflection;
+using KRPG2.GFX;
 
 namespace KRPG2.GUI
 {
@@ -19,7 +22,7 @@ namespace KRPG2.GUI
     {
         public override bool Active => !Main.playerInventory && !Player.ghost;
 
-        private static Texture2D GetTexture(string path) => GFX.GetGUI((KRPG2)ModLoader.GetMod("KRPG2"), "Inventory/" + path);
+        private static Texture2D GetTexture(string texture) => GraphicsHandler.GetGUI((KRPG2)ModLoader.GetMod("KRPG2"), "Inventory/" + texture);
 
         internal Hotbar(K2Player k2player) : base(k2player) { }
 

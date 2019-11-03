@@ -13,6 +13,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using KRPG2.Net;
 using KRPG2.GUI;
+using Terraria.UI;
 
 namespace KRPG2
 {
@@ -26,10 +27,19 @@ namespace KRPG2
             K2Networking.Init();
         }
 
-        public override void PostDrawInterface(SpriteBatch spriteBatch)
+        public bool DrawInterface()
         {
             if (Main.netMode != NetmodeID.Server)
-                BaseGUI.DrawGUIElements(spriteBatch);
+                BaseGUI.DrawGUIElements(Main.spriteBatch);
+
+            return true;
+        }
+
+        public override void ModifyInterfaceLayers(List<Terraria.UI.GameInterfaceLayer> layers)
+        {
+            layers.Find(layer => layer.Name == "Vanilla: Resource Bars").Active = false;
+            layers[layers.FindIndex(layer => layer.Name == "Vanilla: Inventory")] = new LegacyGameInterfaceLayer("kRPG", new GameInterfaceDrawMethod(DrawInterface), InterfaceScaleType.UI);
+            layers.Find(layer => layer.Name == "Vanilla: Hotbar").Active = false;
         }
     }
 }

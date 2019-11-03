@@ -18,9 +18,9 @@ namespace KRPG2
     {
         public readonly RPGCharacter character;
 
-        private StatusBar statusBar;
-        private Hotbar hotbar;
+        public InventoryHandler inv;
 
+        private GUIHandler guiHandler;
         private bool initializedGUI = false;
 
         public static List<Player> GetActivePlayers()
@@ -43,21 +43,12 @@ namespace KRPG2
 
         public override void PostUpdate()
         {
-            if (!initializedGUI)
-                InitializeGUI();
-        }
-
-        private void InitializeGUI()
-        {
             if (Main.netMode != NetmodeID.Server)
-            {
-                statusBar = new StatusBar(this);
-                hotbar = new Hotbar(this);
-
-                Hotbar.ReplaceTextures();
-            }
-
-            initializedGUI = true;
+                if (!initializedGUI)
+                {
+                    guiHandler = new GUIHandler(this);
+                    initializedGUI = true;
+                }
         }
     }
 }
