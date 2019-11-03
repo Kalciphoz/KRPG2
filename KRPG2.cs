@@ -41,5 +41,7 @@ namespace KRPG2
             layers[layers.FindIndex(layer => layer.Name == "Vanilla: Inventory")] = new LegacyGameInterfaceLayer("kRPG", new GameInterfaceDrawMethod(DrawInterface), InterfaceScaleType.UI);
             layers.Find(layer => layer.Name == "Vanilla: Hotbar").Active = false;
         }
+
+        public override void HandlePacket(BinaryReader reader, int sender) => K2Networking.HandlePacket(this, reader, sender);
     }
 }
