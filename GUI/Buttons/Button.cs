@@ -18,10 +18,10 @@ namespace KRPG2.GUI.Buttons
     {
         public virtual bool Toggled => toggled;
 
-        protected readonly K2Player k2player;
         protected readonly KRPG2 krpg2;
-        protected Player Player => k2player.player;
-        protected RPGCharacter Character => k2player.character;
+        protected Player Player => Main.LocalPlayer;
+        protected K2Player K2Player => Player.GetModPlayer<K2Player>();
+        protected RPGCharacter Character => K2Player.character;
 
         protected static float Scale => BaseGUI.Scale;
 
@@ -41,10 +41,9 @@ namespace KRPG2.GUI.Buttons
 
         protected virtual Texture2D GetTexture(string texture) => GraphicsHandler.GetGUI(krpg2, "Buttons/" + texture);
 
-        public Button(K2Player k2player, Vector2 position)
+        public Button(Vector2 position)
         {
-            this.k2player = k2player;
-            this.krpg2 = (KRPG2)ModLoader.GetMod("KRPG2");
+            krpg2 = (KRPG2)ModLoader.GetMod("KRPG2");
             this.position = position;
         }
 

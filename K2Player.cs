@@ -22,7 +22,6 @@ namespace KRPG2
         public InventoryHandler inventory;
 
         private GUIHandler guiHandler;
-        private bool initialized = false;
 
         public static List<Player> GetActivePlayers()
         {
@@ -42,24 +41,32 @@ namespace KRPG2
             character = new RPGCharacter(this);
         }
 
-        public void Init()
+        public override void Initialize()
         {
-            if (Main.netMode != NetmodeID.Server)
-                guiHandler = new GUIHandler(this);
-
-            inventory = new InventoryHandler(this);
-            initialized = true;
         }
 
         public override void PostUpdate()
         {
-            if (!initialized)
-                Init();
-
             for (int i = 0; i < 40; i += 1)
                 inventory.page[inventory.ActivePage].item[i] = player.inventory[i + 10];
 
             if (Main.mapTime % 60 == 0) API.FindRecipes();
+        }
+
+        public override TagCompound Save()
+        {
+            var tag = new TagCompound();
+            tag.Add("inventory", inventory.Save());
+            return tag;
+        }
+
+        public override void Load(TagCompound tag)
+        {
+            if (Main.netMode != NetmodeID.Server && player.whoAmI == Main.myPlayer)
+                guiHandler = new GUIHandler();
+
+            inventory = new InventoryHandler(this);
+            inventory.Load(tag.GetCompound("inventory"));
         }
     }
 }

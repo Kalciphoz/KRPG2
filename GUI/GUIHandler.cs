@@ -15,21 +15,19 @@ namespace KRPG2.GUI
 {
     internal class GUIHandler
     {
-        private readonly K2Player k2player;
-
         private readonly StatusBar statusBar;
         private readonly Hotbar hotbar;
         private readonly InventoryGUI inventory;
         private readonly BuffsGUI buffs;
 
-        public GUIHandler(K2Player k2player)
-        {
-            this.k2player = k2player;
+        private K2Player K2Player => Main.LocalPlayer.GetModPlayer<K2Player>();
 
-            statusBar = new StatusBar(k2player);
-            hotbar = new Hotbar(k2player);
-            inventory = new InventoryGUI(k2player);
-            buffs = new BuffsGUI(k2player);
+        public GUIHandler()
+        {
+            statusBar = new StatusBar();
+            hotbar = new Hotbar();
+            inventory = new InventoryGUI();
+            buffs = new BuffsGUI();
 
             Hotbar.ReplaceTextures();
         }

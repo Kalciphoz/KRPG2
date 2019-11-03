@@ -37,18 +37,10 @@ namespace KRPG2.Inventory
         public InventoryHandler(K2Player k2player)
         {
             this.k2player = k2player;
-            
-            foreach (InventoryPage p in page)
-                for (int i = 0; i < p.item.Length; i += 1)
-                {
-                    p.item[i] = new Item();
-                    p.item[i].SetDefaults();
-                }
-
             lootLogic = new ItemLootLogic(this, k2player);
         }
 
-        public void OpenPage(int p)
+        internal void OpenPage(int p)
         {
             for (int i = 0; i < 40; i += 1)
                 Player.inventory[i + 10] = page[p].item[i];
@@ -58,6 +50,23 @@ namespace KRPG2.Inventory
             for (int i = 0; i < 50; i += 1)
                 if (Player.inventory[i].type == 71 || Player.inventory[i].type == 72 || Player.inventory[i].type == 73 || Player.inventory[i].type == 74)
                     Player.DoCoins(i);
+        }
+
+        internal TagCompound Save()
+        {
+            var tag = new TagCompound();
+            tag.Add("unlocked", unlocked);
+            for (int i = 0; i <= unlocked; i += 1)
+                tag.Add("page" + i, page[i].Save());
+            return tag;
+        }
+
+        internal void Load(TagCompound tag)
+        {
+            unlocked = tag.GetInt("unlocked");
+            for (int i = 0; i <= unlocked; i += 1)
+                page[i].Load(tag.GetCompound("page" + i));
+            OpenPage(0);
         }
     }
 }

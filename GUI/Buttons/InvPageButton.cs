@@ -15,25 +15,25 @@ namespace KRPG2.GUI.Buttons
 {
     internal class InvPageButton : Button
     {
-        public override bool Toggled => k2player.inventory.ActivePage == id && !k2player.inventory.statPage;
+        public override bool Toggled => K2Player.inventory.ActivePage == id && !K2Player.inventory.statPage;
 
         protected override Texture2D Texture => GetTexture($"Page{id}");
         protected override Texture2D Texture_Pressed => GetTexture($"Page{id}_Selected");
         protected override Texture2D Texture_Disabled => id == 0 ? null : GetTexture($"Page{id}_Disabled");
 
         protected override bool Toggleable => true;
-        protected override bool Enabled => k2player.inventory.unlocked >= id;
+        protected override bool Enabled => K2Player.inventory.unlocked >= id;
 
-        private int id;
+        private readonly int id;
 
-        public InvPageButton(K2Player k2player, Vector2 position, int id) : base(k2player, position)
+        public InvPageButton(Vector2 position, int id) : base(position)
         {
             this.id = id;
         }
 
         public override void Click()
         {
-            k2player.inventory.OpenPage(id);
+            K2Player.inventory.OpenPage(id);
         }
     }
 }

@@ -19,8 +19,6 @@ namespace KRPG2.GUI
     {
         public override bool Active => !Player.ghost;
 
-        public BuffsGUI(K2Player k2player) : base(k2player) { }
-
         private static MethodInfo DrawBuffIcon = typeof(Main).GetMethod("DrawBuffIcon", BindingFlags.NonPublic | BindingFlags.Static);
 
         protected override void Draw(SpriteBatch spriteBatch)

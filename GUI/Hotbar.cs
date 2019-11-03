@@ -24,8 +24,6 @@ namespace KRPG2.GUI
 
         private static Texture2D GetTexture(string texture) => GraphicsHandler.GetGUI((KRPG2)ModLoader.GetMod("KRPG2"), "Inventory/" + texture);
 
-        internal Hotbar(K2Player k2player) : base(k2player) { }
-
         public static void ReplaceTextures()
         {
             var slot = GetTexture("Slot");

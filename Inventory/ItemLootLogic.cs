@@ -45,7 +45,7 @@ namespace KRPG2.Inventory
                     return true;
             }
 
-            for (int i = 0; i < inventory.unlocked; i++)
+            for (int i = 0; i <= inventory.unlocked; i++)
             {
                 for (int j = 0; j < inventory.page[i].item.Length; j += 1)
                 {
@@ -153,31 +153,32 @@ namespace KRPG2.Inventory
             {
                 int num3 = i;
                 if (num3 < 0) num3 = 54 + i;
-                
-                if (TryPlaceItem(item, ref Player.inventory[num3], isCoin, true))
-                {
-                    if (isCoin) Player.DoCoins(num3);
+
+                if (TryPlaceItem(ref item, ref Player.inventory[num3], isCoin, true))
                     return new Item();
-                }
+
+                if (isCoin) Player.DoCoins(num3);
             }
 
-            for (int i = 0; i < inventory.unlocked; i += 1)
+            for (int i = 0; i <= inventory.unlocked; i += 1)
                 if (k2player.inventory.ActivePage != i)
                 {
                     InventoryPage page = inventory.page[i];
                     for (int j = 0; j < page.item.Length; j += 1)
-                        if (TryPlaceItem(item, ref page.item[j], isCoin, true)) return new Item();
+                        if (TryPlaceItem(ref item, ref page.item[j], isCoin, true))
+                            return new Item();
                 }
 
             if (!isCoin && item.useStyle > 0)
                 for (int j = 0; j < 10; j++)
-                    if (TryPlaceItem(item, ref Player.inventory[j], isCoin, true)) return new Item();
+                    if (TryPlaceItem(ref item, ref Player.inventory[j], isCoin, true))
+                        return new Item();
 
             if (item.favorited)
             {
                 for (int k = 0; k < startSlot; k++)
                     if (k2player.inventory.ActivePage == 0 || isCoin)
-                        if (TryPlaceItem(item, ref Player.inventory[k], isCoin, false))
+                        if (TryPlaceItem(ref item, ref Player.inventory[k], isCoin, false))
                         {
                             if (isCoin) Player.DoCoins(k);
                             return new Item();
@@ -188,31 +189,34 @@ namespace KRPG2.Inventory
             {
                 for (int l = startSlot - 1; l >= 0; l--)
                     if (inventory.ActivePage == 0 || isCoin)
-                        if (TryPlaceItem(item, ref Player.inventory[l], isCoin, false))
+                        if (TryPlaceItem(ref item, ref Player.inventory[l], isCoin, false))
                         {
                             if (isCoin) Player.DoCoins(l);
                             return new Item();
                         }
 
-                for (int i = 0; i < inventory.unlocked; i += 1)
+                for (int i = 0; i <= inventory.unlocked; i += 1)
                     if (inventory.ActivePage != i)
                     {
                         InventoryPage page = inventory.page[i];
                         for (int j = 0; j < page.item.Length; j += 1)
-                            if (TryPlaceItem(item, ref page.item[j], isCoin, false)) return new Item();
+                            if (TryPlaceItem(ref item, ref page.item[j], isCoin, false)) return new Item();
                     }
             }
 
             return item;
         }
 
-        private bool TryPlaceItem(Item item, ref Item target, bool isCoin, bool incrementStack)
+        private bool TryPlaceItem(ref Item item, ref Item target, bool isCoin, bool incrementStack)
         {
+            bool dispose = false;
+
             if (target.type == 0 && !incrementStack)
             {
                 target = item;
                 ItemText.NewText(item, item.stack);
                 AchievementsHelper.NotifyItemPickup(Player, item);
+                dispose = true;
             }
             else if (incrementStack && target.type > 0 && target.stack < target.maxStack && item.IsTheSameAs(target))
             {
@@ -221,6 +225,7 @@ namespace KRPG2.Inventory
                     target.stack += item.stack;
                     ItemText.NewText(item, item.stack);
                     AchievementsHelper.NotifyItemPickup(Player, item);
+                    dispose = true;
                 }
                 else
                 {
@@ -230,14 +235,13 @@ namespace KRPG2.Inventory
                     target.stack = target.maxStack;
                 }
             }
-            else return false;
             
             Main.PlaySound(isCoin ? SoundID.CoinPickup : SoundID.Grab, (int)Player.position.X, (int)Player.position.Y, 1, 1f, 0f);
             if (Player.whoAmI == Main.myPlayer)
             {
                 API.FindRecipes();
             }
-            return true;
+            return dispose;
         }
     }
 }

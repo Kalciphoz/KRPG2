@@ -34,17 +34,17 @@ namespace KRPG2.GUI
 
         private Texture2D GetTexture(string texture) => GraphicsHandler.GetGUI(krpg2, "Inventory/" + texture);
 
-        public InventoryGUI(K2Player k2player) : base(k2player)
+        public InventoryGUI() : base()
         {
-            AddButton(new InvPageButton(k2player, Origin + new Vector2(174f, 102f), 0));
-            AddButton(new InvPageButton(k2player, Origin + new Vector2(206f, 102f), 1));
-            AddButton(new InvPageButton(k2player, Origin + new Vector2(238f, 102f), 2));
+            AddButton(new InvPageButton(Origin + new Vector2(174f, 102f), 0));
+            AddButton(new InvPageButton(Origin + new Vector2(206f, 102f), 1));
+            AddButton(new InvPageButton(Origin + new Vector2(238f, 102f), 2));
         }
 
         protected override void Draw(SpriteBatch spriteBatch)
         {
-            Vanilla(!k2player.inventory.statPage);
-            if (k2player.inventory.statPage) DrawStatPage(spriteBatch);
+            Vanilla(!K2Player.inventory.statPage);
+            if (K2Player.inventory.statPage) DrawStatPage(spriteBatch);
             spriteBatch.Draw(Frame, new Vector2((int)Origin.X, (int)Origin.Y), Scale);
             spriteBatch.Draw(Separator, new Vector2(Origin.X + 56 * Scale, Origin.Y + 354 * Scale), Scale);
             DrawHotbar(spriteBatch);

@@ -22,18 +22,17 @@ namespace KRPG2.GUI
 
         private static List<BaseGUI> gui_elements = new List<BaseGUI>();
 
-        protected readonly K2Player k2player;
         protected readonly KRPG2 krpg2;
-        protected Player Player => k2player.player;
-        protected RPGCharacter Character => k2player.character;
+        protected Player Player => Main.LocalPlayer;
+        protected K2Player K2Player => Player.GetModPlayer<K2Player>();
+        protected RPGCharacter Character => K2Player.character;
 
         protected virtual bool DoDraw => Active;
 
         protected List<Button> buttons = new List<Button>();
 
-        public BaseGUI(K2Player k2player)
+        public BaseGUI()
         {
-            this.k2player = k2player;
             this.krpg2 = (KRPG2)ModLoader.GetMod("KRPG2");
             gui_elements.Add(this);
         }
