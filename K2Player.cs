@@ -19,6 +19,7 @@ namespace KRPG2
         public readonly RPGCharacter character;
 
         private StatusBar statusBar;
+        private Hotbar hotbar;
 
         private bool initializedGUI = false;
 
@@ -51,6 +52,9 @@ namespace KRPG2
             if (Main.netMode != NetmodeID.Server)
             {
                 statusBar = new StatusBar(this);
+                hotbar = new Hotbar(this);
+
+                Hotbar.ReplaceTextures();
             }
 
             initializedGUI = true;

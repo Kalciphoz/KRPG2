@@ -42,13 +42,9 @@ namespace KRPG2.GUI
 
         private Texture2D GetTexture(string texture) => GFX.GetGUI(krpg2, "StatusBar/" + texture);
 
-        internal StatusBar(K2Player k2player) : base(k2player)
-        {
-        }
+        internal StatusBar(K2Player k2player) : base(k2player) { }
 
-        protected override void Update()
-        {
-        }
+        protected override void Update() { }
 
         protected override void Draw(SpriteBatch spriteBatch)
         {
