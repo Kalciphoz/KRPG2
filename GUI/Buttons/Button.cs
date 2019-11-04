@@ -54,7 +54,7 @@ namespace KRPG2.GUI.Buttons
             {
                 Player.mouseInterface = true;
                 if (Main.mouseLeft && Enabled)
-                    if (Toggleable ? !oldMouseLeft : Main.mouseLeftRelease)
+                    if (Toggleable || Texture_Pressed == null ? !oldMouseLeft : Main.mouseLeftRelease)
                     {
                         Main.PlaySound(SoundID.MenuTick);
                         Click();
@@ -68,7 +68,7 @@ namespace KRPG2.GUI.Buttons
         {
             if (!Enabled && Texture_Disabled != null)
                 spriteBatch.Draw(Texture_Disabled, position, Scale);
-            else if (Toggled && Texture_Pressed != null)
+            else if (Toggled && Texture_Pressed != null || Texture.Bounds.Contains(Main.MouseScreen - Position) && Main.mouseLeft)
                 spriteBatch.Draw(Texture_Pressed, position, Scale);
             else
                 spriteBatch.Draw(Texture, position, Scale);
