@@ -40,6 +40,8 @@ namespace KRPG2.GUI
         private Texture2D Frame => GetTexture("Frame");
         private Texture2D Background => GetTexture("Background");
         private Texture2D Bars => GetTexture("Bars");
+        private Texture2D Bubbles => GetTexture("Bubbles");
+        private Texture2D BubblesLava => GetTexture("Bubbles_Lava");
 
         private Texture2D GetTexture(string texture) => GraphicsHandler.GetGUI(krpg2, "StatusBar/" + texture);
 
@@ -49,21 +51,36 @@ namespace KRPG2.GUI
 
             spriteBatch.Draw(Background, position, Scale);
 
-            int currentLength = (int)Math.Round((decimal)Player.statLife / Player.statLifeMax2 * bar_life_length);
-            Rectangle sourceRectangle = new Rectangle((int)bar_life_origin.X + bar_life_length - currentLength, (int)bar_life_origin.Y, currentLength, bar_life_thickness);
-            spriteBatch.Draw(Bars, position + bar_life_origin * Scale, sourceRectangle, Scale);
-
-            currentLength = (int)Math.Round((decimal)Player.statMana / Player.statManaMax2 * bar_mana_length);
-            sourceRectangle = new Rectangle((int)bar_mana_origin.X + bar_mana_length - currentLength, (int)bar_mana_origin.Y, currentLength, bar_mana_thickness);
-            spriteBatch.Draw(Bars, position + bar_mana_origin * Scale, sourceRectangle, Scale);
-
-            currentLength = (int)Math.Round((decimal)Character.XP / Character.XPToLevel() * bar_xp_length);
-            sourceRectangle = new Rectangle((int)bar_xp_origin.X + bar_xp_length - currentLength, (int)bar_xp_origin.Y, currentLength, bar_xp_thickness);
-            spriteBatch.Draw(Bars, position + bar_xp_origin * Scale, sourceRectangle, Scale);
+            DrawBar(spriteBatch, bar_life_origin, bar_life_length, bar_life_thickness, (decimal)Player.statLife / Player.statLifeMax2);
+            DrawBar(spriteBatch, bar_mana_origin, bar_mana_length, bar_mana_thickness, (decimal)Player.statMana / Player.statManaMax2);
+            DrawBar(spriteBatch, bar_xp_origin, bar_xp_length, bar_xp_thickness, (decimal)Character.XP / Character.XPToLevel());
 
             spriteBatch.Draw(Frame, position, Scale);
             spriteBatch.DrawStringWithShadow(Main.fontMouseText, $"{Player.statLife} / {Player.statLifeMax2}", position + new Vector2(bar_life_origin.X * Scale + 24f * Scale, (bar_life_origin.Y + 4f) * Scale), Color.White, Scale);
             spriteBatch.DrawStringWithShadow(Main.fontMouseText, $"{Player.statMana} / {Player.statManaMax2}", position + new Vector2(bar_mana_origin.X * Scale + 24f * Scale, bar_mana_origin.Y * Scale), Color.White, 0.8f * Scale);
+
+            DrawBubbles(spriteBatch);
+        }
+
+        private void DrawBar(SpriteBatch spriteBatch, Vector2 origin, int length, int thickness, decimal fullness)
+        {
+            int drawLength = (int)Math.Round(fullness * length);
+            Rectangle sourceRectangle = new Rectangle((int)origin.X + length - drawLength, (int)origin.Y, drawLength, thickness);
+            spriteBatch.Draw(Bars, Origin + origin, sourceRectangle, Scale);
+        }
+
+        private void DrawBubbles(SpriteBatch spriteBatch)
+        {
+            if (Player.lavaTime < Player.lavaMax)
+            {
+                int currentBubbles = (int)Math.Round((decimal)bubbles_length * Player.lavaTime / Player.lavaMax);
+                spriteBatch.Draw(Bubbles, Origin + bubbles_origin * Scale, new Rectangle(0, 0, currentBubbles, bubbles_thickness), Scale);
+            }
+            if (Player.breath < Player.breathMax)
+            {
+                int currentBubbles = (int)Math.Round((decimal)bubbles_length * Player.breath / Player.breathMax);
+                spriteBatch.Draw(BubblesLava, Origin + bubbles_origin * Scale, new Rectangle(0, 0, currentBubbles, bubbles_thickness), Scale);
+            }
         }
     }
 }
