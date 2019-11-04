@@ -12,6 +12,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using KRPG2.GUI;
 using KRPG2.Inventory;
+using KRPG2.Net;
 
 namespace KRPG2
 {
@@ -19,11 +20,11 @@ namespace KRPG2
     {
         public readonly RPGCharacter character;
 
+        public bool initialized { get; private set; } = false;
+
         public InventoryHandler inventory;
 
         private GUIHandler guiHandler;
-
-        private bool initialized = false;
 
         public static List<Player> GetActivePlayers()
         {
@@ -62,8 +63,16 @@ namespace KRPG2
             if (Main.mapTime % 60 == 0) API.FindRecipes();
         }
 
+        public override void OnEnterWorld(Player player)
+        {
+            if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
+                K2Networking.SendPacket((KRPG2)mod, new ServerJoinSyncInvPages((KRPG2)mod, inventory));
+        }
+
         public override TagCompound Save()
         {
+            if (!initialized) Init();
+
             var tag = new TagCompound();
             tag.Add("inventory", inventory.Save());
             return tag;
