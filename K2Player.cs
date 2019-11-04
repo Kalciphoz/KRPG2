@@ -23,6 +23,8 @@ namespace KRPG2
 
         private GUIHandler guiHandler;
 
+        private bool initialized = false;
+
         public static List<Player> GetActivePlayers()
         {
             var list = new List<Player>();
@@ -41,12 +43,19 @@ namespace KRPG2
             character = new RPGCharacter(this);
         }
 
-        public override void Initialize()
+        public void Init()
         {
+            if (Main.netMode != NetmodeID.Server && player.whoAmI == Main.myPlayer)
+                guiHandler = new GUIHandler();
+            inventory = new InventoryHandler(this);
+
+            initialized = true;
         }
 
         public override void PostUpdate()
         {
+            if (!initialized) Init();
+
             for (int i = 0; i < 40; i += 1)
                 inventory.page[inventory.ActivePage].item[i] = player.inventory[i + 10];
 
@@ -62,10 +71,7 @@ namespace KRPG2
 
         public override void Load(TagCompound tag)
         {
-            if (Main.netMode != NetmodeID.Server && player.whoAmI == Main.myPlayer)
-                guiHandler = new GUIHandler();
-
-            inventory = new InventoryHandler(this);
+            Init();
             inventory.Load(tag.GetCompound("inventory"));
         }
     }

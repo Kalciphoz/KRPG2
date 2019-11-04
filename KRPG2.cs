@@ -35,8 +35,10 @@ namespace KRPG2
             return true;
         }
 
-        public override void ModifyInterfaceLayers(List<Terraria.UI.GameInterfaceLayer> layers)
+        public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
+            if (Main.netMode == NetmodeID.Server) return;
+
             layers.Find(layer => layer.Name == "Vanilla: Resource Bars").Active = false;
             layers[layers.FindIndex(layer => layer.Name == "Vanilla: Inventory")] = new LegacyGameInterfaceLayer("kRPG", new GameInterfaceDrawMethod(DrawInterface), InterfaceScaleType.UI);
             layers.Find(layer => layer.Name == "Vanilla: Hotbar").Active = false;
