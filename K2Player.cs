@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Graphics;
+﻿using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,6 +6,7 @@ using Terraria.ModLoader.IO;
 using KRPG2.GUI;
 using KRPG2.Inventory;
 using KRPG2.Net;
+using WebmilioCommons.Extensions;
 
 namespace KRPG2
 {
@@ -65,8 +59,8 @@ namespace KRPG2
 
         public override void OnEnterWorld(Player player)
         {
-            if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
-                K2Networking.SendPacket((KRPG2)mod, new ServerJoinSyncInvPages((KRPG2)mod, inventory));
+            if (player.whoAmI == Main.myPlayer)
+                this.SendIfLocal(new ServerJoinSyncInventoryPages());
         }
 
         public override TagCompound Save()

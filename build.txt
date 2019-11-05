@@ -1,3 +1,4 @@
 displayName = Kalciphoz's RPG Mod 2
 author = Kalciphoz
 version = 0.1
+modReferences = WebmilioCommons@0.1.7.10

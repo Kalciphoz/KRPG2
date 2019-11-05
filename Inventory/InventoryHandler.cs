@@ -1,22 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Graphics;
+﻿using KRPG2.Net;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using Terraria.GameContent.Achievements;
+using WebmilioCommons.Extensions;
 
 namespace KRPG2.Inventory
 {
     public class InventoryHandler
     {
         internal readonly ItemLootLogic lootLogic;
+        private int _activePage;
 
         public readonly InventoryPage[] page = new InventoryPage[3]
         {
@@ -31,7 +23,6 @@ namespace KRPG2.Inventory
         private Player Player => k2player.player;
         private RPGCharacter Character => k2player.character;
 
-        public int ActivePage { get; private set; } = 0;
         public bool statPage = false;
 
         public InventoryHandler(K2Player k2player)
@@ -67,6 +58,19 @@ namespace KRPG2.Inventory
             for (int i = 0; i <= unlocked; i += 1)
                 page[i].Load(tag.GetCompound("page" + i));
             OpenPage(0);
+        }
+
+
+        public int ActivePage
+        {
+            get => _activePage;
+            set
+            {
+                if (value == _activePage) return;
+
+                _activePage = value;
+                k2player.SendIfLocal(new ChangeInventoryPage());
+            }
         }
     }
 }

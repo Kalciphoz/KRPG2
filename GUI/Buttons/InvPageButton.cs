@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 using KRPG2.Net;
+using WebmilioCommons.Extensions;
 
 namespace KRPG2.GUI.Buttons
 {
@@ -34,7 +27,6 @@ namespace KRPG2.GUI.Buttons
 
         public override void Click()
         {
-            if (Main.netMode == NetmodeID.MultiplayerClient) K2Networking.SendPacket(krpg2, new ChangeInvPage(krpg2, id));
             K2Player.inventory.OpenPage(id);
         }
     }
