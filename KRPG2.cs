@@ -1,31 +1,32 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using System.Reflection;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 using KRPG2.Net;
 using KRPG2.GUI;
 using Terraria.UI;
+using WebmilioCommons.Networking;
 
 namespace KRPG2
 {
-	public class KRPG2 : Mod
-	{
-        public static Type[] AssemblyTypes { get; private set; }
-
-		public KRPG2()
+    public class KRPG2 : Mod
+    {
+        public KRPG2()
         {
             AssemblyTypes = Assembly.GetExecutingAssembly().GetTypes();
-            K2Networking.Init();
+
+            Instance = this;
         }
+
+
+        public override void Unload()
+        {
+            Instance = null;
+        }
+
 
         public bool DrawInterface()
         {
@@ -44,6 +45,11 @@ namespace KRPG2
             layers.Find(layer => layer.Name == "Vanilla: Hotbar").Active = false;
         }
 
-        public override void HandlePacket(BinaryReader reader, int sender) => K2Networking.HandlePacket(this, reader, sender);
+        public override void HandlePacket(BinaryReader reader, int sender) => NetworkPacketLoader.Instance.HandlePacket(reader, sender);
+
+
+        public static Type[] AssemblyTypes { get; private set; }
+
+        public static KRPG2 Instance { get; private set; }
     }
 }

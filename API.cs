@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 using Terraria.UI.Chat;
 using ReLogic.Graphics;
 
@@ -17,7 +11,7 @@ namespace KRPG2
 {
     public static partial class API
     {
-        public static void CraftItem(Recipe r)
+        public static void CraftItem(this Recipe r)
         {
             Main.CraftItem(r);
         }
@@ -45,13 +39,17 @@ namespace KRPG2
         public static void FindRecipes()
         {
             if (Main.netMode == NetmodeID.Server) return;
+
             int num = Main.availableRecipe[Main.focusRecipe];
             float num2 = Main.availableRecipeY[Main.focusRecipe];
+            
             for (int i = 0; i < Recipe.maxRecipes; i++)
             {
                 Main.availableRecipe[i] = 0;
             }
+
             Main.numAvailableRecipes = 0;
+
             bool flag = Main.guideItem.type > 0 && Main.guideItem.stack > 0 && Main.guideItem.Name != "";
             if (flag)
             {
