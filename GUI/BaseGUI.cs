@@ -31,7 +31,7 @@ namespace KRPG2.GUI
         {
             this.krpg2 = KRPG2.Instance;
 
-                _guiElements.Add(this);
+            _guiElements.Add(this);
         }
 
         protected void AddButton(Button button)

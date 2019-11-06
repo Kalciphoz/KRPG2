@@ -71,7 +71,7 @@ namespace KRPG2.Players
 
         public override void OnEnterWorld(Terraria.Player player)
         {
-            if (player.IsLocalPlayer())
+            if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
                 this.SendIfLocal(new ServerJoinSyncInventoryPages());
         }
     }

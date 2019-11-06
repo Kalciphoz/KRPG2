@@ -14,6 +14,8 @@ namespace KRPG2.GUI
 
         public GUIHandler()
         {
+            BaseGUI._guiElements.Clear();
+
             statusBar = new StatusBar();
             hotbar = new Hotbar();
             inventory = new InventoryGUI();
