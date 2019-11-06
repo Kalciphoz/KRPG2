@@ -24,6 +24,8 @@ namespace KRPG2
 
         public override void Unload()
         {
+            BaseGUI._guiElements.Clear();
+
             Instance = null;
         }
 

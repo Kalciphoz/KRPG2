@@ -16,7 +16,7 @@ namespace KRPG2.GUI
 
         public virtual bool Active { get; protected set; } = false;
 
-        private static readonly List<BaseGUI> _guiElements = new List<BaseGUI>();
+        internal static readonly List<BaseGUI> _guiElements = new List<BaseGUI>();
 
         protected readonly KRPG2 krpg2;
         protected Player Player => Main.LocalPlayer;
@@ -29,8 +29,9 @@ namespace KRPG2.GUI
 
         protected BaseGUI()
         {
-            this.krpg2 = (KRPG2)ModLoader.GetMod("KRPG2");
-            _guiElements.Add(this);
+            this.krpg2 = KRPG2.Instance;
+
+                _guiElements.Add(this);
         }
 
         protected void AddButton(Button button)
