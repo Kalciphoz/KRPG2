@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using KRPG2.Players;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,10 +17,10 @@ namespace KRPG2
 
                         if (npc.type == NPCID.WallofFlesh)
                         {
-                            if (k2player.inventory.unlocked < 2) k2player.inventory.unlocked = 2;
+                            if (k2player.Inventory.unlocked < 2) k2player.Inventory.unlocked = 2;
                         }
 
-                        else if (k2player.inventory.unlocked < 1) k2player.inventory.unlocked = 1;
+                        else if (k2player.Inventory.unlocked < 1) k2player.Inventory.unlocked = 1;
                     }
             
         }

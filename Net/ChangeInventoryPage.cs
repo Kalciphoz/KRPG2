@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using KRPG2.Players;
 using WebmilioCommons.Networking.Packets;
 
 namespace KRPG2.Net
@@ -7,8 +8,8 @@ namespace KRPG2.Net
     {
         public int PageNumber
         {
-            get => ModPlayer.inventory.ActivePage;
-            set => ModPlayer.inventory.OpenPage(value);
+            get => ModPlayer.Inventory.ActivePage;
+            set => ModPlayer.Inventory.OpenPage(value);
         }
     }
 }

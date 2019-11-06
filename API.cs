@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using KRPG2.Players;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -38,7 +39,7 @@ namespace KRPG2
 
         public static void FindRecipes()
         {
-            if (Main.netMode == NetmodeID.Server) return;
+            if (Main.dedServ) return;
 
             int num = Main.availableRecipe[Main.focusRecipe];
             float num2 = Main.availableRecipeY[Main.focusRecipe];
@@ -97,9 +98,9 @@ namespace KRPG2
                 if (Main.player[Main.myPlayer].active)
                 {
                     K2Player k2player = Main.player[Main.myPlayer].GetModPlayer<K2Player>();
-                    for (int j = 0; j <= k2player.inventory.unlocked; j += 1)
-                        if (j != k2player.inventory.ActivePage)
-                            foreach (Item i in k2player.inventory.page[j].item)
+                    for (int j = 0; j <= k2player.Inventory.unlocked; j += 1)
+                        if (j != k2player.Inventory.ActivePage)
+                            foreach (Item i in k2player.Inventory.Page[j].item)
                             {
                                 if (dictionary.ContainsKey(i.netID))
                                 {

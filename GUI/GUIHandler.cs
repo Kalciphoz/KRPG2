@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using KRPG2.Players;
+using Terraria;
 
 namespace KRPG2.GUI
 {

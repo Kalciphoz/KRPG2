@@ -1,5 +1,7 @@
 ﻿using KRPG2.Net;
+using KRPG2.Players;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader.IO;
 using WebmilioCommons.Extensions;
 
@@ -7,56 +9,71 @@ namespace KRPG2.Inventory
 {
     public class InventoryHandler
     {
-        internal readonly ItemLootLogic lootLogic;
-        private int _activePage;
+        public const string 
+            SAVE_KEY_UNLOCKED = "Unlocked",
+            SAVE_KEY_PAGE = "Page";
 
-        public readonly InventoryPage[] page = new InventoryPage[3]
+        internal readonly ItemLootLogic lootLogic;
+        
+        // Inventory/Stat Pages
+        private int _activePage;
+        public bool statPage;
+
+        public int unlocked;
+
+        public InventoryPage[] Page { get; } = new InventoryPage[3]
         {
             new InventoryPage(0),
             new InventoryPage(1),
             new InventoryPage(2)
         };
 
-        public int unlocked = 0;
+        public K2Player K2Player { get; }
+        private Player Player => K2Player.player;
+        private RPGCharacter Character => K2Player.character;
 
-        private K2Player k2player;
-        private Player Player => k2player.player;
-        private RPGCharacter Character => k2player.character;
 
-        public bool statPage = false;
-
-        public InventoryHandler(K2Player k2player)
+        public InventoryHandler(K2Player k2Player)
         {
-            this.k2player = k2player;
-            lootLogic = new ItemLootLogic(this, k2player);
+            K2Player = k2Player;
+            lootLogic = new ItemLootLogic(this, k2Player);
         }
 
         internal void OpenPage(int p)
         {
-            for (int i = 0; i < 40; i += 1)
-                Player.inventory[i + 10] = page[p].item[i];
+            for (int i = 0; i < K2Player.ACTUAL_INVENTORY_SIZE; i += 1)
+                Player.inventory[i + K2Player.TOOLBAR_SIZE] = Page[p].item[i];
+
             ActivePage = p;
             statPage = false;
+
             API.FindRecipes();
-            for (int i = 0; i < 50; i += 1)
-                if (Player.inventory[i].type == 71 || Player.inventory[i].type == 72 || Player.inventory[i].type == 73 || Player.inventory[i].type == 74)
-                    Player.DoCoins(i);
+
+            for (int slotIndex = 0; slotIndex < Main.realInventory; slotIndex += 1)
+                if (Player.inventory[slotIndex].type >= ItemID.CopperCoin || Player.inventory[slotIndex].type <= ItemID.PlatinumCoin)
+                    Player.DoCoins(slotIndex);
         }
 
         internal TagCompound Save()
         {
-            var tag = new TagCompound();
-            tag.Add("unlocked", unlocked);
+            TagCompound tag = new TagCompound
+            {
+                {SAVE_KEY_UNLOCKED, unlocked}
+            };
+
             for (int i = 0; i <= unlocked; i += 1)
-                tag.Add("page" + i, page[i].Save());
+                tag.Add("page" + i, Page[i].Save());
+
             return tag;
         }
 
         internal void Load(TagCompound tag)
         {
-            unlocked = tag.GetInt("unlocked");
+            unlocked = tag.GetInt(SAVE_KEY_UNLOCKED);
+
             for (int i = 0; i <= unlocked; i += 1)
-                page[i].Load(tag.GetCompound("page" + i));
+                Page[i].Load(tag.GetCompound(SAVE_KEY_PAGE + i));
+
             OpenPage(0);
         }
 
@@ -69,7 +86,7 @@ namespace KRPG2.Inventory
                 if (value == _activePage) return;
 
                 _activePage = value;
-                k2player.SendIfLocal(new ChangeInventoryPage());
+                K2Player.SendIfLocal(new ChangeInventoryPage());
             }
         }
     }

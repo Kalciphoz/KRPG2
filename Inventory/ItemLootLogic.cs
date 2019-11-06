@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using KRPG2.Players;
+using Terraria;
 using Terraria.ID;
 using Terraria.GameContent.Achievements;
 
@@ -37,9 +38,9 @@ namespace KRPG2.Inventory
 
             for (int i = 0; i <= inventory.unlocked; i++)
             {
-                for (int j = 0; j < inventory.page[i].item.Length; j += 1)
+                for (int j = 0; j < inventory.Page[i].item.Length; j += 1)
                 {
-                    Item item = inventory.page[i].item[j];
+                    Item item = inventory.Page[i].item[j];
                     if (item.type == 0 || item.stack == 0 || item.type > 0 && item.stack > 0 && item.stack < item.maxStack && newItem.IsTheSameAs(item))
                         return true;
                     
@@ -151,9 +152,9 @@ namespace KRPG2.Inventory
             }
 
             for (int i = 0; i <= inventory.unlocked; i += 1)
-                if (k2player.inventory.ActivePage != i)
+                if (k2player.Inventory.ActivePage != i)
                 {
-                    InventoryPage page = inventory.page[i];
+                    InventoryPage page = inventory.Page[i];
                     for (int j = 0; j < page.item.Length; j += 1)
                         if (TryPlaceItem(ref item, ref page.item[j], isCoin, true))
                             return new Item();
@@ -167,7 +168,7 @@ namespace KRPG2.Inventory
             if (item.favorited)
             {
                 for (int k = 0; k < startSlot; k++)
-                    if (k2player.inventory.ActivePage == 0 || isCoin)
+                    if (k2player.Inventory.ActivePage == 0 || isCoin)
                         if (TryPlaceItem(ref item, ref Player.inventory[k], isCoin, false))
                         {
                             if (isCoin) Player.DoCoins(k);
@@ -188,7 +189,7 @@ namespace KRPG2.Inventory
                 for (int i = 0; i <= inventory.unlocked; i += 1)
                     if (inventory.ActivePage != i)
                     {
-                        InventoryPage page = inventory.page[i];
+                        InventoryPage page = inventory.Page[i];
                         for (int j = 0; j < page.item.Length; j += 1)
                             if (TryPlaceItem(ref item, ref page.item[j], isCoin, false)) return new Item();
                     }

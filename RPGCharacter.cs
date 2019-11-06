@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using KRPG2.Players;
+using Terraria;
 
 namespace KRPG2
 {
@@ -17,7 +18,8 @@ namespace KRPG2
 
         public long XPToLevel()
         {
-            var lv = (long)Level;
+            long lv = Level;
+
             if (Level <= 5)
                 return lv * 20;
             else if (Level < 10)

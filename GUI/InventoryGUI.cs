@@ -35,8 +35,8 @@ namespace KRPG2.GUI
 
         protected override void Draw(SpriteBatch spriteBatch)
         {
-            Vanilla(!K2Player.inventory.statPage);
-            if (K2Player.inventory.statPage) DrawStatPage(spriteBatch);
+            Vanilla(!K2Player.Inventory.statPage);
+            if (K2Player.Inventory.statPage) DrawStatPage(spriteBatch);
             spriteBatch.Draw(Frame, new Vector2((int)Origin.X, (int)Origin.Y), Scale);
             spriteBatch.Draw(Separator, new Vector2(Origin.X + 56 * Scale, Origin.Y + 354 * Scale), Scale);
             DrawHotbar(spriteBatch);

@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using KRPG2.GUI.Buttons;
+using KRPG2.Players;
 
 namespace KRPG2.GUI
 {
