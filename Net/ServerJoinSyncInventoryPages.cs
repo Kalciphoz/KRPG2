@@ -13,8 +13,6 @@ namespace KRPG2.Net
             for (int i = 1; i < ModPlayer.Inventory.Page.Length; i += 1)
                 for (int j = 0; j < ModPlayer.Inventory.Page[i].item.Length; j += 1)
                     modPacket.WriteItem(ModPlayer.Inventory.Page[i].item[j], true, true);
-
-            base.Send(fromWho, toWho);
         }
 
         public override bool PostReceive(BinaryReader reader, int fromWho)

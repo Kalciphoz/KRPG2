@@ -50,7 +50,7 @@ namespace KRPG2.Players
 
         public void Init()
         {
-            if (!Main.dedServ && player.IsLocalPlayer())
+            if (!Main.dedServ && player.whoAmI == Main.myPlayer)
                 _guiHandler = new GUIHandler();
 
             Inventory = new InventoryHandler(this);

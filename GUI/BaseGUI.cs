@@ -54,7 +54,7 @@ namespace KRPG2.GUI
         {
             if (Main.netMode == NetmodeID.Server)
                 throw new Exception("Server attempted to draw GUI elements");
-
+            
             foreach (BaseGUI gui in _guiElements)
                 if (gui.DoDraw)
                 {

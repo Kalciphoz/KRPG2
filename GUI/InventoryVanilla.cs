@@ -96,27 +96,7 @@ namespace KRPG2.GUI
                         }
                         ItemSlot.MouseHover(Main.player[Main.myPlayer].inventory, 0, id);
                     }
-                    try
-                    {
-                        API.ItemSlotDrawExtension(Main.spriteBatch, Main.player[Main.myPlayer].inventory, 0, id, new Vector2((float)x2, (float)y2), Color.White, Color.White);
-                    }
-                    catch (SystemException e)
-                    {
-                        /*if (Main.LocalPlayer.inventory[id].modItem is ProceduralItem)
-                        {
-                            try
-                            {
-                                ProceduralItem item = (ProceduralItem)Main.LocalPlayer.inventory[id].modItem;
-                                item.Initialize();
-                            }
-                            catch (SystemException e2)
-                            {
-                                throw new Exception("Failed to initialise procedurally generated item " + e2.ToString());
-                            }
-                        }
-                        else*/
-                            throw e;
-                    }
+                    API.ItemSlotDrawExtension(Main.spriteBatch, Main.player[Main.myPlayer].inventory, 0, id, new Vector2((float)x2, (float)y2), Color.White, Color.White);
                 }
             }
             Main.inventoryScale = oldinvscale;
