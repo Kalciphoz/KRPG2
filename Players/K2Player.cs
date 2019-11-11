@@ -18,7 +18,7 @@ namespace KRPG2.Players
 
         private GUIHandler _guiHandler;
 
-        public readonly RPGCharacter character;
+        public RPGCharacter Character { get; private set; }
         public InventoryHandler Inventory { get; private set; }
 
         public bool Initialized { get; private set; }
@@ -27,29 +27,12 @@ namespace KRPG2.Players
         public static K2Player Get() => Get(Main.LocalPlayer);
         public static K2Player Get(Player player) => player.GetModPlayer<K2Player>();
 
-
-        public static List<Player> GetActivePlayers()
-        {
-            List<Player> list = new List<Player>();
-
-            for (int i = 0; i < Main.player.Length; i += 1)
-            {
-                Player player = Main.player[i];
-
-                if (player != null && player.active)
-                    list.Add(player);
-            }
-
-            return list;
-        }
-
-        public K2Player() : base()
-        {
-            character = new RPGCharacter(this);
-        }
+        public K2Player() : base() { }
 
         public void Init()
         {
+            Character = new RPGCharacter(player);
+
             if (!Main.dedServ && player.whoAmI == Main.myPlayer)
                 _guiHandler = new GUIHandler();
 
@@ -67,6 +50,12 @@ namespace KRPG2.Players
 
             if (Main.playerInventory && Main.mapTime % 60 == 0)
                 API.FindRecipes();
+        }
+
+        public override void DrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
+        {
+            if (!Initialized) Init();
+            Character.DrawLevelAnimation(ref fullBright);
         }
 
         public override void OnEnterWorld(Terraria.Player player)

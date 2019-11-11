@@ -20,8 +20,8 @@ namespace KRPG2.GUI
 
         protected readonly KRPG2 krpg2;
         protected Player Player => Main.LocalPlayer;
-        protected K2Player K2Player => Player.GetModPlayer<K2Player>();
-        protected RPGCharacter Character => K2Player.character;
+        protected K2Player K2Player => K2Player.Get();
+        protected RPGCharacter Character => K2Player.Character;
 
         protected virtual bool DoDraw => Active;
 

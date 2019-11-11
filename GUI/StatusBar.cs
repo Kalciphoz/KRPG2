@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using KRPG2.GFX;
+using KRPG2.Players;
 
 namespace KRPG2.GUI
 {
@@ -34,7 +35,8 @@ namespace KRPG2.GUI
         private Texture2D Bubbles => GetTexture("Bubbles");
         private Texture2D BubblesLava => GetTexture("Bubbles_Lava");
 
-        private Texture2D GetTexture(string texture) => GraphicsHandler.GetGUI(krpg2, "StatusBar/" + texture);
+        private static Texture2D GetTexture(string texture) => GraphicsHandler.GetGUI(KRPG2.Instance, "StatusBar/" + texture);
+        private static Texture2D GetNumeral(string texture) => GetTexture("Numerals/" + texture);
 
         protected override void Draw(SpriteBatch spriteBatch)
         {
@@ -49,6 +51,8 @@ namespace KRPG2.GUI
             spriteBatch.Draw(Frame, position, Scale);
             spriteBatch.DrawStringWithShadow(Main.fontMouseText, $"{Player.statLife} / {Player.statLifeMax2}", position + new Vector2(bar_life_origin.X * Scale + 24f * Scale, (bar_life_origin.Y + 4f) * Scale), Color.White, Scale);
             spriteBatch.DrawStringWithShadow(Main.fontMouseText, $"{Player.statMana} / {Player.statManaMax2}", position + new Vector2(bar_mana_origin.X * Scale + 24f * Scale, bar_mana_origin.Y * Scale), Color.White, 0.8f * Scale);
+
+            DrawNumerals(spriteBatch, Character, new Vector2(190f, 58f) * Scale);
 
             DrawBubbles(spriteBatch);
         }
@@ -71,6 +75,25 @@ namespace KRPG2.GUI
             {
                 int currentBubbles = (int)Math.Round((decimal)bubbles_length * Player.breath / Player.breathMax);
                 spriteBatch.Draw(BubblesLava, Origin + bubbles_origin * Scale, new Rectangle(0, 0, currentBubbles, bubbles_thickness), Scale);
+            }
+        }
+
+        internal static void DrawNumerals(SpriteBatch spriteBatch, RPGCharacter character, Vector2 origin)
+        {
+            if (character.Level < 10)
+            {
+                spriteBatch.Draw(GetNumeral(character.Level.ToString()), new Vector2(origin.X - 16f * Scale, origin.Y), null, Color.White, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0f);
+            }
+            else if (character.Level < 100)
+            {
+                spriteBatch.Draw(GetNumeral((character.Level / 10).ToString()), new Vector2(origin.X - 34f * Scale, origin.Y), null, Color.White, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(GetNumeral((character.Level % 10).ToString()), new Vector2(origin.X + 2f * Scale, origin.Y), null, Color.White, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0f);
+            }
+            else if (character.Level < 1000)
+            {
+                spriteBatch.Draw(GetNumeral((character.Level / 100).ToString()), new Vector2(origin.X - 52f * Scale, origin.Y), null, Color.White, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(GetNumeral((character.Level % 100).ToString()), new Vector2(origin.X - 16f * Scale, origin.Y), null, Color.White, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(GetNumeral((character.Level % 10).ToString()), new Vector2(origin.X + 20f * Scale, origin.Y), null, Color.White, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0f);
             }
         }
     }

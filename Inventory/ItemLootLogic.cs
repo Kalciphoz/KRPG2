@@ -10,7 +10,7 @@ namespace KRPG2.Inventory
         private readonly InventoryHandler inventory;
         private K2Player k2player;
         private Player Player => k2player.player;
-        private RPGCharacter Character => k2player.character;
+        private RPGCharacter Character => k2player.Character;
 
         internal ItemLootLogic(InventoryHandler inventory, K2Player k2player)
         {
@@ -36,7 +36,7 @@ namespace KRPG2.Inventory
                     return true;
             }
 
-            for (int i = 0; i <= inventory.unlocked; i++)
+            for (int i = 0; i <= inventory.Unlocked; i++)
             {
                 for (int j = 0; j < inventory.Page[i].item.Length; j += 1)
                 {
@@ -151,7 +151,7 @@ namespace KRPG2.Inventory
                 if (isCoin) Player.DoCoins(num3);
             }
 
-            for (int i = 0; i <= inventory.unlocked; i += 1)
+            for (int i = 0; i <= inventory.Unlocked; i += 1)
                 if (k2player.Inventory.ActivePage != i)
                 {
                     InventoryPage page = inventory.Page[i];
@@ -186,7 +186,7 @@ namespace KRPG2.Inventory
                             return new Item();
                         }
 
-                for (int i = 0; i <= inventory.unlocked; i += 1)
+                for (int i = 0; i <= inventory.Unlocked; i += 1)
                     if (inventory.ActivePage != i)
                     {
                         InventoryPage page = inventory.Page[i];

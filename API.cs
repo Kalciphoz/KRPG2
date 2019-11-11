@@ -97,8 +97,8 @@ namespace KRPG2
                 }
                 if (Main.player[Main.myPlayer].active)
                 {
-                    K2Player k2player = Main.player[Main.myPlayer].GetModPlayer<K2Player>();
-                    for (int j = 0; j <= k2player.Inventory.unlocked; j += 1)
+                    K2Player k2player = K2Player.Get();
+                    for (int j = 0; j <= k2player.Inventory.Unlocked; j += 1)
                         if (j != k2player.Inventory.ActivePage)
                             foreach (Item i in k2player.Inventory.Page[j].item)
                             {
