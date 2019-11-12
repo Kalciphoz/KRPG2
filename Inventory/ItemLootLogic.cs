@@ -1,4 +1,5 @@
 ﻿using KRPG2.Players;
+using KRPG2.RPG;
 using Terraria;
 using Terraria.ID;
 using Terraria.GameContent.Achievements;

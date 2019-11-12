@@ -1,6 +1,7 @@
 ﻿using KRPG2.Net;
 using KRPG2.Net.Players;
 using KRPG2.Players;
+using KRPG2.RPG;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader.IO;

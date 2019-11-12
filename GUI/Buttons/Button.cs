@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using KRPG2.GFX;
 using KRPG2.Players;
+using KRPG2.RPG;
 
 namespace KRPG2.GUI.Buttons
 {
