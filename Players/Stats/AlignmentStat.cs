@@ -15,7 +15,7 @@ namespace KRPG2.Players.Stats
 {
     public abstract class AlignmentStat : Stat
     {
-        public int baseAmount;
+        public int baseAmount = 0;
         public int bonusAmount = 0;
         public int Amount => baseAmount + bonusAmount;
 

@@ -33,12 +33,17 @@ namespace KRPG2.Players
         {
             Character = new RPGCharacter(player);
 
+            Inventory = new InventoryHandler(this);
+
             if (!Main.dedServ && player.whoAmI == Main.myPlayer)
                 _guiHandler = new GUIHandler();
 
-            Inventory = new InventoryHandler(this);
-
             Initialized = true;
+        }
+
+        public override void PostUpdateEquips()
+        {
+            Character.UpdateStats();
         }
 
         public override void PostUpdate()

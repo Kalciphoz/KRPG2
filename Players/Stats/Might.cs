@@ -13,13 +13,12 @@ using Terraria.ModLoader.IO;
 
 namespace KRPG2.Players.Stats
 {
-    public class Stoicism : AlignmentStat
+    public class Might : AlignmentStat
     {
         public override void Update(Player player, K2Player k2player, RPGCharacter character)
         {
-            player.statLifeMax2 += 115 + Amount * 10 - player.statLifeMax;
-            player.statDefense += Amount;
-            character.minorStats[typeof(LifeRegen)].BonusAmount += 0.3f * Amount;
+            player.statManaMax2 += 19 + Amount * 3 - player.statManaMax;
+            character.minorStats[typeof(Damage)].BonusAmount += 0.08f * Amount;
         }
     }
 }

@@ -45,11 +45,14 @@ namespace KRPG2.Players
             Player = player;
             alignmentStats = new Dictionary<Type, AlignmentStat>()
             {
-                { typeof(Stoicism), new Stoicism() }
+                { typeof(Stoicism), new Stoicism() },
+                { typeof(Acuity), new Acuity() },
+                { typeof(Might), new Might() }
             };
             minorStats = new Dictionary<Type, MinorStat>()
             {
-                { typeof(LifeRegen), new LifeRegen() }
+                { typeof(LifeRegen), new LifeRegen() },
+                { typeof(Damage), new Damage() }
             };
         }
 
@@ -63,6 +66,10 @@ namespace KRPG2.Players
             Player.statLifeMax2 += Level * 5;
             float lifeMultiplier = 1f + (Player.statLifeMax - 100f) / 400f;
             Player.statLifeMax2 = (int)Math.Round(Player.statLifeMax2 * lifeMultiplier);
+
+            Player.statManaMax2 += Level;
+            float manaMultiplier = 1f + (Player.statManaMax - 20f) / 200f * 1.5f;
+            Player.statManaMax2 = (int)Math.Round(Player.statManaMax2 * manaMultiplier);
 
             foreach (MinorStat stat in minorStats.Values)
             {

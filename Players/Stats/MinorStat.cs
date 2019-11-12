@@ -41,6 +41,7 @@ namespace KRPG2.Players.Stats
                     _bonusAmount = value;
             }
         }
+        public float Amount => BaseAmount + BonusAmount;
         protected virtual float Default => 0f;
 
         public MinorStat()
