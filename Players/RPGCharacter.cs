@@ -1,5 +1,6 @@
 ﻿using KRPG2.GFX;
 using KRPG2.Net;
+using KRPG2.Net.Players;
 using KRPG2.Players;
 using KRPG2.Players.Stats;
 using Microsoft.Xna.Framework;

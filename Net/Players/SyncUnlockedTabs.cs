@@ -13,7 +13,7 @@ using Terraria.ModLoader.IO;
 using WebmilioCommons.Networking.Packets;
 using KRPG2.Players;
 
-namespace KRPG2.Net
+namespace KRPG2.Net.Players
 {
     public class SyncUnlockedTabs : ModPlayerNetworkPacket<K2Player>
     {
