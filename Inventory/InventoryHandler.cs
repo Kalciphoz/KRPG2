@@ -62,7 +62,7 @@ namespace KRPG2.Inventory
             };
 
             for (int i = 0; i <= Unlocked; i += 1)
-                tag.Add("page" + i, Page[i].Save());
+                tag.Add(SAVE_KEY_PAGE + i, Page[i].Save());
 
             return tag;
         }

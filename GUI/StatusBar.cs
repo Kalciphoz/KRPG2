@@ -46,7 +46,7 @@ namespace KRPG2.GUI
 
             DrawBar(spriteBatch, bar_life_origin, bar_life_length, bar_life_thickness, (decimal)Player.statLife / Player.statLifeMax2);
             DrawBar(spriteBatch, bar_mana_origin, bar_mana_length, bar_mana_thickness, (decimal)Player.statMana / Player.statManaMax2);
-            DrawBar(spriteBatch, bar_xp_origin, bar_xp_length, bar_xp_thickness, (decimal)Character.XP / Character.XPToLevel());
+            if (Character.XPToLevel() > 0) DrawBar(spriteBatch, bar_xp_origin, bar_xp_length, bar_xp_thickness, (decimal)Character.XP / Character.XPToLevel());
 
             spriteBatch.Draw(Frame, position, Scale);
             spriteBatch.DrawStringWithShadow(Main.fontMouseText, $"{Player.statLife} / {Player.statLifeMax2}", position + new Vector2(bar_life_origin.X * Scale + 24f * Scale, (bar_life_origin.Y + 4f) * Scale), Color.White, Scale);

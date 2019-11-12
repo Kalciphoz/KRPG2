@@ -31,14 +31,14 @@ namespace KRPG2.Players
 
         public void Init()
         {
+            Initialized = true;
+
             Character = new RPGCharacter(player);
 
             Inventory = new InventoryHandler(this);
 
             if (!Main.dedServ && player.whoAmI == Main.myPlayer)
                 _guiHandler = new GUIHandler();
-
-            Initialized = true;
         }
 
         public override void PostUpdateEquips()
