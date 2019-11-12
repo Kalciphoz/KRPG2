@@ -1,10 +1,12 @@
 ﻿using KRPG2.GFX;
 using KRPG2.Net;
 using KRPG2.Players;
+using KRPG2.Players.Stats;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader.IO;
@@ -20,6 +22,9 @@ namespace KRPG2.Players
 
         public long XP { get; set; } = 0;
         private int _level = 1;
+
+        public Dictionary<Type, AlignmentStat> alignmentStats;
+        public Dictionary<Type, MinorStat> minorStats;
 
         private int levelAnimation = 60;
 
@@ -37,7 +42,32 @@ namespace KRPG2.Players
 
         public RPGCharacter(Player player)
         {
-            this.Player = player;
+            Player = player;
+            alignmentStats = new Dictionary<Type, AlignmentStat>()
+            {
+                { typeof(Stoicism), new Stoicism() }
+            };
+            minorStats = new Dictionary<Type, MinorStat>()
+            {
+                { typeof(LifeRegen), new LifeRegen() }
+            };
+        }
+
+        public void UpdateStats()
+        {
+            foreach (AlignmentStat stat in alignmentStats.Values)
+            {
+                stat.Update(this);
+            }
+
+            Player.statLifeMax2 += Level * 5;
+            float lifeMultiplier = 1f + (Player.statLifeMax - 100f) / 400f;
+            Player.statLifeMax2 = (int)Math.Round(Player.statLifeMax2 * lifeMultiplier);
+
+            foreach (MinorStat stat in minorStats.Values)
+            {
+                stat.Update(this);
+            }
         }
 
         public void GainXP(int amount, bool first = true)
