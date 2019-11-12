@@ -42,7 +42,7 @@ namespace KRPG2.RPG.Leveling
             softXPCaps.Add(lockAt);
         }
 
-        public static bool HasLevelLock(int level) => 
+        public static bool Contains(int level) => 
             softXPCaps.Contains(level);
     }
 }
