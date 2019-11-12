@@ -1,9 +1,9 @@
-﻿using WebmilioCommons.Networking.Packets;
-using KRPG2.Players;
+﻿using KRPG2.Players;
+using WebmilioCommons.Networking.Packets;
 
-namespace KRPG2.Net
+namespace KRPG2.Net.Players
 {
-    public class SyncLevel : ModPlayerNetworkPacket<K2Player>
+    public class SyncLevelPacket : ModPlayerNetworkPacket<K2Player>
     {
         public int Level
         {

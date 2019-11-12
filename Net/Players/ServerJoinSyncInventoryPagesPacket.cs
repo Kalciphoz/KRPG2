@@ -6,7 +6,7 @@ using WebmilioCommons.Networking.Packets;
 
 namespace KRPG2.Net.Players
 {
-    public class ServerJoinSyncInventoryPages : ModPlayerNetworkPacket<K2Player>
+    public class ServerJoinSyncInventoryPagesPacket : ModPlayerNetworkPacket<K2Player>
     {
         protected override void PrePopulatePacket(ModPacket modPacket, ref int fromWho, ref int toWho)
         {
