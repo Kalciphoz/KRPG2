@@ -87,8 +87,7 @@ namespace KRPG2.Inventory
                 if (value == _activePage) return;
 
                 _activePage = value;
-                if (Main.netMode == NetmodeID.MultiplayerClient)
-                    K2Player.SendIfLocal(new ChangeInventoryPage());
+                K2Player.SendIfLocal(new ChangeInventoryPage());
             }
         }
         
