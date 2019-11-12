@@ -45,7 +45,7 @@ namespace KRPG2.Players.Stats
         protected virtual float Default => 0f;
         public override bool DoSave => false;
 
-        public MinorStat()
+        protected MinorStat(string unlocalizedName) : base(unlocalizedName)
         {
             BaseAmount = Default;
         }
