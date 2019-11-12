@@ -7,16 +7,19 @@ namespace KRPG2.Inventory
 {
     internal class ItemLootLogic
     {
-        private readonly InventoryHandler inventory;
-        private K2Player k2player;
-        private Player Player => k2player.player;
-        private RPGCharacter Character => k2player.character;
+        private K2Player K2Player { get; }
+        private Player Player => K2Player.player;
+        private RPGCharacter Character => K2Player.character;
 
-        internal ItemLootLogic(InventoryHandler inventory, K2Player k2player)
+        public InventoryHandler Inventory { get; }
+
+
+        internal ItemLootLogic(K2Player k2Player, InventoryHandler inventory)
         {
-            this.inventory = inventory;
-            this.k2player = k2player;
+            this.Inventory = inventory;
+            this.K2Player = k2Player;
         }
+
 
         public bool CanPickup(Item newItem)
         {
@@ -24,6 +27,7 @@ namespace KRPG2.Inventory
             {
                 return true;
             }
+
             int startSlot = 50;
 
             if (newItem.type >= ItemID.CopperCoin && newItem.type <= ItemID.PlatinumCoin)
@@ -32,18 +36,19 @@ namespace KRPG2.Inventory
             for (int i = 0; i < startSlot; i++)
             {
                 Item item = Player.inventory[i];
-                if ((item.type == 0 || item.stack == 0) && (startSlot > 50 || inventory.ActivePage == 0) || item.type > 0 && item.stack > 0 && item.stack < item.maxStack && newItem.IsTheSameAs(item))
+
+                if ((item.type == 0 || item.stack == 0) && (startSlot > 50 || Inventory.ActivePage == 0) || item.type > 0 && item.stack > 0 && item.stack < item.maxStack && newItem.IsTheSameAs(item))
                     return true;
             }
 
-            for (int i = 0; i <= inventory.unlocked; i++)
+            for (int i = 0; i <= Inventory.unlocked; i++)
             {
-                for (int j = 0; j < inventory.Page[i].item.Length; j += 1)
+                for (int j = 0; j < Inventory.Page[i].item.Length; j += 1)
                 {
-                    Item item = inventory.Page[i].item[j];
+                    Item item = Inventory.Page[i].item[j];
+
                     if (item.type == 0 || item.stack == 0 || item.type > 0 && item.stack > 0 && item.stack < item.maxStack && newItem.IsTheSameAs(item))
                         return true;
-                    
                 }
             }
 
@@ -151,10 +156,10 @@ namespace KRPG2.Inventory
                 if (isCoin) Player.DoCoins(num3);
             }
 
-            for (int i = 0; i <= inventory.unlocked; i += 1)
-                if (k2player.Inventory.ActivePage != i)
+            for (int i = 0; i <= Inventory.unlocked; i += 1)
+                if (K2Player.Inventory.ActivePage != i)
                 {
-                    InventoryPage page = inventory.Page[i];
+                    InventoryPage page = Inventory.Page[i];
                     for (int j = 0; j < page.item.Length; j += 1)
                         if (TryPlaceItem(ref item, ref page.item[j], isCoin, true))
                             return new Item();
@@ -168,7 +173,7 @@ namespace KRPG2.Inventory
             if (item.favorited)
             {
                 for (int k = 0; k < startSlot; k++)
-                    if (k2player.Inventory.ActivePage == 0 || isCoin)
+                    if (K2Player.Inventory.ActivePage == 0 || isCoin)
                         if (TryPlaceItem(ref item, ref Player.inventory[k], isCoin, false))
                         {
                             if (isCoin) Player.DoCoins(k);
@@ -179,17 +184,17 @@ namespace KRPG2.Inventory
             else
             {
                 for (int l = startSlot - 1; l >= 0; l--)
-                    if (inventory.ActivePage == 0 || isCoin)
+                    if (Inventory.ActivePage == 0 || isCoin)
                         if (TryPlaceItem(ref item, ref Player.inventory[l], isCoin, false))
                         {
                             if (isCoin) Player.DoCoins(l);
                             return new Item();
                         }
 
-                for (int i = 0; i <= inventory.unlocked; i += 1)
-                    if (inventory.ActivePage != i)
+                for (int i = 0; i <= Inventory.unlocked; i += 1)
+                    if (Inventory.ActivePage != i)
                     {
-                        InventoryPage page = inventory.Page[i];
+                        InventoryPage page = Inventory.Page[i];
                         for (int j = 0; j < page.item.Length; j += 1)
                             if (TryPlaceItem(ref item, ref page.item[j], isCoin, false)) return new Item();
                     }

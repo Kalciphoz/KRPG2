@@ -2,6 +2,7 @@
 using KRPG2.GUI;
 using KRPG2.Inventory;
 using KRPG2.Net;
+using KRPG2.Net.Players;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -50,7 +51,10 @@ namespace KRPG2.Players
 
         public void Init()
         {
-            if (!Main.dedServ && player.whoAmI == Main.myPlayer)
+            if (Initialized)
+                return;
+
+            if (!Main.dedServ && player.IsLocalPlayer())
                 _guiHandler = new GUIHandler();
 
             Inventory = new InventoryHandler(this);
@@ -71,7 +75,7 @@ namespace KRPG2.Players
 
         public override void OnEnterWorld(Terraria.Player player)
         {
-            if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
+            if (!Main.dedServ)
                 this.SendIfLocal(new ServerJoinSyncInventoryPages());
         }
     }

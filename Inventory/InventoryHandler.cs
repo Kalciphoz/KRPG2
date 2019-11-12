@@ -1,4 +1,5 @@
 ﻿using KRPG2.Net;
+using KRPG2.Net.Players;
 using KRPG2.Players;
 using Terraria;
 using Terraria.ID;
@@ -13,13 +14,17 @@ namespace KRPG2.Inventory
             SAVE_KEY_UNLOCKED = "Unlocked",
             SAVE_KEY_PAGE = "Page";
 
-        internal readonly ItemLootLogic lootLogic;
-        
+
         // Inventory/Stat Pages
         private int _activePage;
         public bool statPage;
 
         public int unlocked;
+
+
+        public K2Player K2Player { get; }
+        private Player Player => K2Player.player;
+        private RPGCharacter Character => K2Player.character;
 
         public InventoryPage[] Page { get; } = new InventoryPage[3]
         {
@@ -28,15 +33,13 @@ namespace KRPG2.Inventory
             new InventoryPage(2)
         };
 
-        public K2Player K2Player { get; }
-        private Player Player => K2Player.player;
-        private RPGCharacter Character => K2Player.character;
-
+        internal ItemLootLogic LootLogic { get; }
+        
 
         public InventoryHandler(K2Player k2Player)
         {
             K2Player = k2Player;
-            lootLogic = new ItemLootLogic(this, k2Player);
+            LootLogic = new ItemLootLogic(k2Player, this);
         }
 
         internal void OpenPage(int p)
