@@ -548,12 +548,12 @@ namespace KRPG2
                 }
             }
 
-            /*K2Player k2player = player.GetModPlayer<K2Player>();
-            for (int i = 0; i < k2player.inventories.Length; i += 1)
-                if (k2player.activeInvPage != i)
-                    for (int j = 0; j < k2player.inventories[i].Length; j += 1)
+            /*K2Player k2Player = player.GetModPlayer<K2Player>();
+            for (int i = 0; i < k2Player.inventories.Length; i += 1)
+                if (k2Player.activeInvPage != i)
+                    for (int j = 0; j < k2Player.inventories[i].Length; j += 1)
                     {
-                        Item item = k2player.inventories[i][j];
+                        Item item = k2Player.inventories[i][j];
                         if (item.stack > 0 && item.type > 0 && item.potion && item.healLife > 0 && ItemLoader.CanUseItem(item, player))
                         {
                             int num3 = item.healLife - num;

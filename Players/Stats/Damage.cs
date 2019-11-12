@@ -17,7 +17,7 @@ namespace KRPG2.Players.Stats
     {
         protected override float Default => 1f;
 
-        public override void Update(Player player, K2Player k2player, RPGCharacter character)
+        public override void Update(Player player, K2Player k2Player, RPGCharacter character)
         {
             player.allDamageMult *= Amount;
         }

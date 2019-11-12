@@ -22,7 +22,7 @@ namespace KRPG2.Players.Stats
 
         internal abstract void ResetBonus();
 
-        public virtual void Update(Player player, K2Player k2player, RPGCharacter character) { }
+        public virtual void Update(Player player, K2Player k2Player, RPGCharacter character) { }
 
         public virtual bool DoSave => true;
 

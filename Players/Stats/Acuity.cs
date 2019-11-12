@@ -15,7 +15,7 @@ namespace KRPG2.Players.Stats
 {
     public class Acuity : AlignmentStat
     {
-        public override void Update(Player player, K2Player k2player, RPGCharacter character)
+        public override void Update(Player player, K2Player k2Player, RPGCharacter character)
         {
             player.moveSpeed *= 1f + Math.Min(1.2f, Amount * 0.03f);
         }

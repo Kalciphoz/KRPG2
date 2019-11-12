@@ -15,7 +15,7 @@ namespace KRPG2.Players.Stats
 {
     public class Stoicism : AlignmentStat
     {
-        public override void Update(Player player, K2Player k2player, RPGCharacter character)
+        public override void Update(Player player, K2Player k2Player, RPGCharacter character)
         {
             player.statLifeMax2 += 115 + Amount * 10 - player.statLifeMax;
             player.statDefense += Amount;

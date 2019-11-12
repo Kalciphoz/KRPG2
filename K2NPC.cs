@@ -30,14 +30,14 @@ namespace KRPG2
             if (npc.boss)
                 Main.player.DoActive(player =>
                 {
-                    K2Player k2player = K2Player.Get(player);
+                    K2Player k2Player = K2Player.Get(player);
 
                     if (npc.type == NPCID.WallofFlesh)
                     {
-                        if (k2player.Inventory.Unlocked < 2) k2player.Inventory.Unlocked = 2;
+                        if (k2Player.Inventory.Unlocked < 2) k2Player.Inventory.Unlocked = 2;
                     }
 
-                    else if (k2player.Inventory.Unlocked < 1) k2player.Inventory.Unlocked = 1;
+                    else if (k2Player.Inventory.Unlocked < 1) k2Player.Inventory.Unlocked = 1;
                 });
 
             if (npc.type == NPCID.EyeofCthulhu || npc.type == NPCID.BrainofCthulhu || npc.type == NPCID.EaterofWorldsHead && !Main.npc.AnyActive(n => n.type == NPCID.EaterofWorldsBody))
