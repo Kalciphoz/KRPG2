@@ -2,7 +2,6 @@
 using KRPG2.GUI;
 using KRPG2.Inventory;
 using KRPG2.Net;
-using KRPG2.Net.Players;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,7 +18,7 @@ namespace KRPG2.Players
 
         private GUIHandler _guiHandler;
 
-        public readonly RPGCharacter character;
+        public RPGCharacter Character { get; private set; }
         public InventoryHandler Inventory { get; private set; }
 
         public bool Initialized { get; private set; }
@@ -28,38 +27,23 @@ namespace KRPG2.Players
         public static K2Player Get() => Get(Main.LocalPlayer);
         public static K2Player Get(Player player) => player.GetModPlayer<K2Player>();
 
-
-        public static List<Player> GetActivePlayers()
-        {
-            List<Player> list = new List<Player>();
-
-            for (int i = 0; i < Main.player.Length; i += 1)
-            {
-                Player player = Main.player[i];
-
-                if (player != null && player.active)
-                    list.Add(player);
-            }
-
-            return list;
-        }
-
-        public K2Player() : base()
-        {
-            character = new RPGCharacter(this);
-        }
+        public K2Player() : base() { }
 
         public void Init()
         {
-            if (Initialized)
-                return;
-
-            if (!Main.dedServ && player.IsLocalPlayer())
-                _guiHandler = new GUIHandler();
+            Character = new RPGCharacter(player);
 
             Inventory = new InventoryHandler(this);
 
+            if (!Main.dedServ && player.whoAmI == Main.myPlayer)
+                _guiHandler = new GUIHandler();
+
             Initialized = true;
+        }
+
+        public override void PostUpdateEquips()
+        {
+            Character.UpdateStats();
         }
 
         public override void PostUpdate()
@@ -73,9 +57,15 @@ namespace KRPG2.Players
                 API.FindRecipes();
         }
 
+        public override void DrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
+        {
+            if (!Initialized) Init();
+            Character.DrawLevelAnimation(ref fullBright);
+        }
+
         public override void OnEnterWorld(Terraria.Player player)
         {
-            if (!Main.dedServ)
+            if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
                 this.SendIfLocal(new ServerJoinSyncInventoryPages());
         }
     }

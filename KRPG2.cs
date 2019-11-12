@@ -16,6 +16,8 @@ namespace KRPG2
     {
         public KRPG2()
         {
+            AssemblyTypes = Assembly.GetExecutingAssembly().GetTypes();
+
             Instance = this;
         }
 
@@ -46,7 +48,8 @@ namespace KRPG2
         }
 
         public override void HandlePacket(BinaryReader reader, int sender) => NetworkPacketLoader.Instance.HandlePacket(reader, sender);
-
+        
+        public static Type[] AssemblyTypes { get; private set; }
 
         public static KRPG2 Instance { get; private set; }
     }

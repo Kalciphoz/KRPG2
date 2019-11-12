@@ -16,7 +16,7 @@ namespace KRPG2.GUI.Buttons
         protected override Texture2D Texture_Disabled => id == 0 ? null : GetTexture($"Page{id}_Disabled");
 
         protected override bool Toggleable => true;
-        protected override bool Enabled => K2Player.Inventory.unlocked >= id;
+        protected override bool Enabled => K2Player.Inventory.Unlocked >= id;
 
         private readonly int id;
 

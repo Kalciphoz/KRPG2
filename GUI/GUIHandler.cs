@@ -10,7 +10,7 @@ namespace KRPG2.GUI
         private readonly InventoryGUI inventory;
         private readonly BuffsGUI buffs;
 
-        private K2Player K2Player => Main.LocalPlayer.GetModPlayer<K2Player>();
+        private K2Player K2Player => K2Player.Get();
 
         public GUIHandler()
         {

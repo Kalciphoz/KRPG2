@@ -1,5 +1,4 @@
 ﻿using KRPG2.Net;
-using KRPG2.Net.Players;
 using KRPG2.Players;
 using Terraria;
 using Terraria.ID;
@@ -14,17 +13,13 @@ namespace KRPG2.Inventory
             SAVE_KEY_UNLOCKED = "Unlocked",
             SAVE_KEY_PAGE = "Page";
 
+        internal readonly ItemLootLogic lootLogic;
 
         // Inventory/Stat Pages
-        private int _activePage;
         public bool statPage;
+        private int _activePage;
 
-        public int unlocked;
-
-
-        public K2Player K2Player { get; }
-        private Player Player => K2Player.player;
-        private RPGCharacter Character => K2Player.character;
+        private int _unlocked;
 
         public InventoryPage[] Page { get; } = new InventoryPage[3]
         {
@@ -33,13 +28,15 @@ namespace KRPG2.Inventory
             new InventoryPage(2)
         };
 
-        internal ItemLootLogic LootLogic { get; }
-        
+        public K2Player K2Player { get; }
+        private Player Player => K2Player.player;
+        private RPGCharacter Character => K2Player.Character;
+
 
         public InventoryHandler(K2Player k2Player)
         {
             K2Player = k2Player;
-            LootLogic = new ItemLootLogic(k2Player, this);
+            lootLogic = new ItemLootLogic(this, k2Player);
         }
 
         internal void OpenPage(int p)
@@ -61,10 +58,10 @@ namespace KRPG2.Inventory
         {
             TagCompound tag = new TagCompound
             {
-                {SAVE_KEY_UNLOCKED, unlocked}
+                {SAVE_KEY_UNLOCKED, Unlocked}
             };
 
-            for (int i = 0; i <= unlocked; i += 1)
+            for (int i = 0; i <= Unlocked; i += 1)
                 tag.Add("page" + i, Page[i].Save());
 
             return tag;
@@ -72,9 +69,9 @@ namespace KRPG2.Inventory
 
         internal void Load(TagCompound tag)
         {
-            unlocked = tag.GetInt(SAVE_KEY_UNLOCKED);
+            Unlocked = tag.GetInt(SAVE_KEY_UNLOCKED);
 
-            for (int i = 0; i <= unlocked; i += 1)
+            for (int i = 0; i <= Unlocked; i += 1)
                 Page[i].Load(tag.GetCompound(SAVE_KEY_PAGE + i));
 
             OpenPage(0);
@@ -89,7 +86,21 @@ namespace KRPG2.Inventory
                 if (value == _activePage) return;
 
                 _activePage = value;
-                K2Player.SendIfLocal(new ChangeInventoryPage());
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                    K2Player.SendIfLocal(new ChangeInventoryPage());
+            }
+        }
+        
+        public int Unlocked
+        {
+            get => _unlocked;
+            set
+            {
+                if (value == _unlocked) return;
+
+                _unlocked = value;
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                    K2Player.SendIfLocal(new SyncUnlockedTabs());
             }
         }
     }

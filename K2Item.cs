@@ -8,7 +8,7 @@ namespace KRPG2
     {
         public override bool OnPickup(Item item, Player player)
         {
-            return player.GetModPlayer<K2Player>().Inventory.LootLogic.OnPickup(item);
+            return K2Player.Get(player).Inventory.lootLogic.OnPickup(item);
         }
     }
 }

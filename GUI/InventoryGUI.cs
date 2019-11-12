@@ -40,6 +40,8 @@ namespace KRPG2.GUI
             spriteBatch.Draw(Frame, new Vector2((int)Origin.X, (int)Origin.Y), Scale);
             spriteBatch.Draw(Separator, new Vector2(Origin.X + 56 * Scale, Origin.Y + 354 * Scale), Scale);
             DrawHotbar(spriteBatch);
+            
+            StatusBar.DrawNumerals(spriteBatch, Character, new Vector2(132f, 60f) * Scale);
 
             int currentLength = (int)Math.Round((decimal)Player.statLife / Player.statLifeMax2 * barLength);
             spriteBatch.Draw(Life, Origin + new Vector2(BarX, 70 * Scale), new Rectangle(0, 0, currentLength, 20), Scale);
