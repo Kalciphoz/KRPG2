@@ -30,11 +30,11 @@ namespace KRPG2.Players
 
             foreach (AlignmentStat stat in AlignmentStats.Values)
                 if (stat.DoSave)
-                    tag.Add(stat.GetType().Name, stat.Save());
+                    tag.Add(stat.UnlocalizedName, stat.Save());
 
             foreach (MinorStat stat in MinorStats.Values)
                 if (stat.DoSave)
-                    tag.Add(stat.GetType().Name, stat.Save());
+                    tag.Add(stat.UnlocalizedName, stat.Save());
 
             return tag;
         }
@@ -46,11 +46,11 @@ namespace KRPG2.Players
 
             foreach (AlignmentStat stat in AlignmentStats.Values)
                 if (stat.DoSave)
-                    stat.Load(tag.GetCompound(stat.GetType().Name));
+                    stat.Load(tag.GetCompound(stat.UnlocalizedName));
 
             foreach (MinorStat stat in MinorStats.Values)
                 if (stat.DoSave)
-                    stat.Load(tag.GetCompound(stat.GetType().Name));
+                    stat.Load(tag.GetCompound(stat.UnlocalizedName));
         }
     }
 }

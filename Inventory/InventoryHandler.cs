@@ -34,10 +34,10 @@ namespace KRPG2.Inventory
         private RPGCharacter Character => K2Player.Character;
 
 
-        public InventoryHandler(K2Player k2Player)
+        public InventoryHandler(K2Player k2player)
         {
-            K2Player = k2Player;
-            lootLogic = new ItemLootLogic(this, k2Player);
+            K2Player = k2player;
+            lootLogic = new ItemLootLogic(this, k2player);
         }
 
         internal void OpenPage(int p)
@@ -87,7 +87,7 @@ namespace KRPG2.Inventory
                 if (value == _activePage) return;
 
                 _activePage = value;
-                K2Player.SendIfLocal(new ChangeInventoryPage());
+                K2Player.SendIfLocal(new ChangeInventoryPagePacket());
             }
         }
         
@@ -99,7 +99,7 @@ namespace KRPG2.Inventory
                 if (value == _unlocked) return;
 
                 _unlocked = value;
-                K2Player.SendIfLocal(new SyncUnlockedTabs());
+                K2Player.SendIfLocal(new SyncUnlockedTabsPacket());
             }
         }
     }

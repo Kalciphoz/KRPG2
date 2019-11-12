@@ -8,7 +8,7 @@ namespace KRPG2.Players.Stats
         {
         }
 
-        protected override void Update(Player player, K2Player k2Player, RPGCharacter character)
+        protected override void Update(Player player, K2Player k2player, RPGCharacter character)
         {
             player.statManaMax2 += 19 + Amount * 3 - player.statManaMax;
             character.MinorStats[typeof(Damage)].BonusAmount += 0.08f * Amount;

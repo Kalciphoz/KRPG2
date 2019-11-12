@@ -97,10 +97,10 @@ namespace KRPG2
                 }
                 if (Main.player[Main.myPlayer].active)
                 {
-                    K2Player k2Player = K2Player.Get();
-                    for (int j = 0; j <= k2Player.Inventory.Unlocked; j += 1)
-                        if (j != k2Player.Inventory.ActivePage)
-                            foreach (Item i in k2Player.Inventory.Page[j].item)
+                    K2Player k2player = K2Player.Get();
+                    for (int j = 0; j <= k2player.Inventory.Unlocked; j += 1)
+                        if (j != k2player.Inventory.ActivePage)
+                            foreach (Item i in k2player.Inventory.Page[j].item)
                             {
                                 if (dictionary.ContainsKey(i.netID))
                                 {

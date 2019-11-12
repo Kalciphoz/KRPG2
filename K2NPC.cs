@@ -30,35 +30,30 @@ namespace KRPG2
             if (npc.boss)
                 Main.player.DoActive(player =>
                 {
-                    K2Player k2Player = K2Player.Get(player);
+                    K2Player k2player = K2Player.Get(player);
 
                     if (npc.type == NPCID.WallofFlesh)
                     {
-                        if (k2Player.Inventory.Unlocked < 2) k2Player.Inventory.Unlocked = 2;
+                        if (k2player.Inventory.Unlocked < 2) k2player.Inventory.Unlocked = 2;
                     }
 
-                    else if (k2Player.Inventory.Unlocked < 1) k2Player.Inventory.Unlocked = 1;
+                    else if (k2player.Inventory.Unlocked < 1) k2player.Inventory.Unlocked = 1;
                 });
 
             if (npc.type == NPCID.EyeofCthulhu || npc.type == NPCID.BrainofCthulhu || npc.type == NPCID.EaterofWorldsHead && !Main.npc.AnyActive(n => n.type == NPCID.EaterofWorldsBody))
-                if (character.Level < 21)
-                    character.LevelUp(21);
+                character.SetLevel(21);
 
             if (npc.type == NPCID.WallofFlesh || npc.type == NPCID.WallofFleshEye)
-                if (character.Level < 41)
-                    character.LevelUp(41);
+                character.SetLevel(41);
 
             if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.SkeletronPrime || npc.type == NPCID.Spazmatism && !Main.npc.AnyActive(n => n.type == NPCID.Retinazer) || npc.type == NPCID.Retinazer && !Main.npc.AnyActive(n => n.type == NPCID.Spazmatism))
-                if (character.Level < 61)
-                    character.LevelUp(61);
+                character.SetLevel(61);
 
             if (npc.type == NPCID.Plantera)
-                if (character.Level < 81)
-                    character.LevelUp(81);
+                character.SetLevel(81);
 
             if (npc.type == NPCID.MoonLordCore)
-                if (character.Level < 100)
-                    character.LevelUp(100);
+                character.SetLevel(100);
         }
 
         public override void PostAI(NPC npc)

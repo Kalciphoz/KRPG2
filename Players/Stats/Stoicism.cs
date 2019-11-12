@@ -8,7 +8,7 @@ namespace KRPG2.Players.Stats
         {
         }
 
-        protected override void Update(Player player, K2Player k2Player, RPGCharacter character)
+        protected override void Update(Player player, K2Player k2player, RPGCharacter character)
         {
             player.statLifeMax2 += 115 + Amount * 10 - player.statLifeMax;
             player.statDefense += Amount;

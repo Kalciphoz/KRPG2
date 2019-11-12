@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using KRPG2.GFX;
 using KRPG2.Net;
+using KRPG2.Net.Players;
 using KRPG2.Players.Stats;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -82,7 +83,7 @@ namespace KRPG2.Players
                 return;
 
             if (first)
-                K2Player.SendIfLocal(new GainXP(amount));
+                K2Player.SendIfLocal(new GainXPPacket(amount));
 
             XP += amount;
             if (XP >= XPToLevel())
@@ -96,17 +97,25 @@ namespace KRPG2.Players
                 CombatText.NewText(Player.getRect(), new Color(127, 159, 255), amount + " XP");
         }
 
-        public void LevelUp(int level = -1)
+        public void LevelUp(int level = 1)
         {
-            if (level == -1)
-                Level += 1;
-            else if (Level < level)
-                Level = level;
-            else
-                throw new Exception("LevelUp(int) cannot be used to downgrade a character");
+            if (level < 1)
+                throw new ArgumentException($"{nameof(level)} must be a positive integer.");
 
-            if (!Main.gameMenu) LevelUpBling.Play(0.5f * Main.soundVolume, 0f, 0f);
+            Level += level;
+
+            if (!Main.gameMenu) 
+                LevelUpBling.Play(0.5f * Main.soundVolume, 0f, 0f);
+
             levelAnimation = 0;
+        }
+
+        public void SetLevel(int level, bool allowDowngrade = false)
+        {
+            if (level < Level && !allowDowngrade)
+                return;
+
+            Level = level;
         }
 
         public void DrawLevelAnimation(ref bool fullBright)
@@ -170,8 +179,7 @@ namespace KRPG2.Players
                 if (_level == value) return;
 
                 _level = value;
-                if (Main.netMode == NetmodeID.MultiplayerClient && Player.whoAmI == Main.myPlayer)
-                    K2Player.SendIfLocal(new SyncLevel());
+                K2Player.SendIfLocal(new SyncLevelPacket());
             }
         }
     }

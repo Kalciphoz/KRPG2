@@ -18,7 +18,7 @@ namespace KRPG2.Players.Stats
 
         internal abstract void ResetBonus();
 
-        protected virtual void Update(Player player, K2Player k2Player, RPGCharacter character) { }
+        protected virtual void Update(Player player, K2Player k2player, RPGCharacter character) { }
 
         public abstract TagCompound Save();
 
