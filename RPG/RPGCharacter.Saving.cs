@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using KRPG2.Players.Stats;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
+﻿using KRPG2.RPG.Stats;
 using Terraria.ModLoader.IO;
 
-namespace KRPG2.Players
+namespace KRPG2.RPG
 {
     public sealed partial class RPGCharacter
     {

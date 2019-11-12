@@ -1,4 +1,4 @@
-﻿namespace KRPG2.Players.Stats
+﻿namespace KRPG2.RPG.Stats
 {
     public class LifeRegen : MinorStat
     {

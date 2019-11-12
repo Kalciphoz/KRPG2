@@ -1,6 +1,6 @@
 ﻿using Terraria.ModLoader.IO;
 
-namespace KRPG2.Players.Stats
+namespace KRPG2.RPG.Stats
 {
     public abstract class AlignmentStat : Stat
     {

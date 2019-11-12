@@ -1,8 +1,9 @@
-﻿using Terraria;
+﻿using KRPG2.Players;
+using Terraria;
 using Terraria.ModLoader.IO;
 using WebmilioCommons.Managers;
 
-namespace KRPG2.Players.Stats
+namespace KRPG2.RPG.Stats
 {
     public abstract class Stat : IHasUnlocalizedName
     {

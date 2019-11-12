@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using KRPG2.GFX;
-using KRPG2.Net;
 using KRPG2.Net.Players;
-using KRPG2.Players.Stats;
+using KRPG2.Players;
+using KRPG2.RPG.Leveling;
+using KRPG2.RPG.Stats;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using WebmilioCommons.Extensions;
 
-namespace KRPG2.Players
+namespace KRPG2.RPG
 {
     public sealed partial class RPGCharacter
     {
@@ -141,6 +141,9 @@ namespace KRPG2.Players
         {
             long longLevel = currentLevel;
 
+            if (LevelLocks.Contains(currentLevel))
+                return -1;
+
             if (longLevel <= 5)
                 return longLevel * 20;
 
@@ -150,9 +153,6 @@ namespace KRPG2.Players
             if (longLevel == 10)
                 return 2000;
 
-            if (longLevel == 20)
-                return -1;
-
             if (longLevel < 30)
                 return longLevel * 100 - 800;
 
@@ -161,9 +161,6 @@ namespace KRPG2.Players
 
             if (longLevel < 40)
                 return longLevel * 200 - 4200;
-
-            if (longLevel == 40)
-                return -1;
 
             if (longLevel < 50)
                 return longLevel * 400 - 12000;

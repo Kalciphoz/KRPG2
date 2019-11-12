@@ -1,6 +1,7 @@
-﻿using Terraria;
+﻿using KRPG2.Players;
+using Terraria;
 
-namespace KRPG2.Players.Stats
+namespace KRPG2.RPG.Stats
 {
     public class Stoicism : AlignmentStat
     {
