@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using KRPG2.Net;
 using KRPG2.GUI;
+using KRPG2.RPG.Leveling;
 using Terraria.UI;
 using WebmilioCommons.Networking;
 
@@ -21,10 +22,17 @@ namespace KRPG2
             Instance = this;
         }
 
+        public override void Load()
+        {
+            LevelLocks.Load();
+        }
 
         public override void Unload()
         {
             BaseGUI._guiElements.Clear();
+
+            // Leveling
+            LevelLocks.Unload();
 
             Instance = null;
         }

@@ -1,4 +1,5 @@
 ﻿using KRPG2.Players;
+using KRPG2.RPG;
 using Terraria;
 using Terraria.ID;
 using Terraria.GameContent.Achievements;
@@ -8,14 +9,14 @@ namespace KRPG2.Inventory
     internal class ItemLootLogic
     {
         private readonly InventoryHandler inventory;
-        private K2Player k2Player;
-        private Player Player => k2Player.player;
-        private RPGCharacter Character => k2Player.Character;
+        private K2Player k2player;
+        private Player Player => k2player.player;
+        private RPGCharacter Character => k2player.Character;
 
-        internal ItemLootLogic(InventoryHandler inventory, K2Player k2Player)
+        internal ItemLootLogic(InventoryHandler inventory, K2Player k2player)
         {
             this.inventory = inventory;
-            this.k2Player = k2Player;
+            this.k2player = k2player;
         }
 
         public bool CanPickup(Item newItem)
@@ -152,7 +153,7 @@ namespace KRPG2.Inventory
             }
 
             for (int i = 0; i <= inventory.Unlocked; i += 1)
-                if (k2Player.Inventory.ActivePage != i)
+                if (k2player.Inventory.ActivePage != i)
                 {
                     InventoryPage page = inventory.Page[i];
                     for (int j = 0; j < page.item.Length; j += 1)
@@ -168,7 +169,7 @@ namespace KRPG2.Inventory
             if (item.favorited)
             {
                 for (int k = 0; k < startSlot; k++)
-                    if (k2Player.Inventory.ActivePage == 0 || isCoin)
+                    if (k2player.Inventory.ActivePage == 0 || isCoin)
                         if (TryPlaceItem(ref item, ref Player.inventory[k], isCoin, false))
                         {
                             if (isCoin) Player.DoCoins(k);

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using Terraria.ModLoader.Config;
 
-namespace KRPG2.Config
+namespace KRPG2.Configuration
 {
     public sealed class K2ClientConfiguration : ModConfig
     {

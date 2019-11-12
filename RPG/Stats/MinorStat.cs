@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
-namespace KRPG2.Players.Stats
+namespace KRPG2.RPG.Stats
 {
     public abstract class MinorStat : Stat
     {
@@ -45,7 +35,7 @@ namespace KRPG2.Players.Stats
         protected virtual float Default => 0f;
         public override bool DoSave => false;
 
-        public MinorStat()
+        protected MinorStat(string unlocalizedName) : base(unlocalizedName)
         {
             BaseAmount = Default;
         }

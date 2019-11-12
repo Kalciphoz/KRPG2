@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
+﻿using Terraria.ModLoader.IO;
 
-namespace KRPG2.Players.Stats
+namespace KRPG2.RPG.Stats
 {
     public abstract class AlignmentStat : Stat
     {
         public int baseAmount = 0;
         public int bonusAmount = 0;
+
         public int Amount => baseAmount + bonusAmount;
+
+        protected AlignmentStat(string unlocalizedName) : base(unlocalizedName)
+        {
+        }
 
         internal sealed override void ResetBonus()
         {

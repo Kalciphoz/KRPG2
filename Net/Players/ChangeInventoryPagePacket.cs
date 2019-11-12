@@ -3,7 +3,7 @@ using WebmilioCommons.Networking.Packets;
 
 namespace KRPG2.Net.Players
 {
-    public class ChangeInventoryPage : ModPlayerNetworkPacket<K2Player>
+    public class ChangeInventoryPagePacket : ModPlayerNetworkPacket<K2Player>
     {
         public int PageNumber
         {

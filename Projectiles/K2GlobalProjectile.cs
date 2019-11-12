@@ -2,7 +2,7 @@
 
 namespace KRPG2
 {
-    public class K2Projectile : GlobalProjectile
+    public class K2GlobalProjectile : GlobalProjectile
     {
     }
 }

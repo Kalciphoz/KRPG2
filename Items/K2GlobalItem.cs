@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace KRPG2
 {
-    public class K2Item : GlobalItem
+    public class K2GlobalItem : GlobalItem
     {
         public override bool OnPickup(Item item, Player player)
         {
