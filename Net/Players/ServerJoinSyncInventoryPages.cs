@@ -28,5 +28,11 @@ namespace KRPG2.Net.Players
 
             return result;
         }
+
+        public int UnlockedPages
+        {
+            get => ModPlayer.Inventory.Unlocked;
+            set => ModPlayer.Inventory.Unlocked = value;
+        }
     }
 }

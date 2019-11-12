@@ -28,10 +28,10 @@ namespace KRPG2.NPCs
                 {
                     K2Player k2Player = K2Player.Get(player);
 
-                    if (npc.type == NPCID.WallofFlesh && k2Player.Inventory.unlocked < 2)
-                        k2Player.Inventory.unlocked = 2;
-                    else if (k2Player.Inventory.unlocked < 1) 
-                        k2Player.Inventory.unlocked = 1;
+                    if (npc.type == NPCID.WallofFlesh && k2Player.Inventory.Unlocked < 2)
+                        k2Player.Inventory.Unlocked = 2;
+                    else if (k2Player.Inventory.Unlocked < 1) 
+                        k2Player.Inventory.Unlocked = 1;
                 });
         }
 

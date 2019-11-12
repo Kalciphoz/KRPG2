@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using KRPG2.GUI;
 using KRPG2.Inventory;
-using KRPG2.Net;
+using KRPG2.Net.Players;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
