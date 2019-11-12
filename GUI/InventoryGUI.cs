@@ -47,8 +47,11 @@ namespace KRPG2.GUI
             spriteBatch.Draw(Life, Origin + new Vector2(BarX, 70 * Scale), new Rectangle(0, 0, currentLength, 20), Scale);
             currentLength = (int)Math.Round((decimal)Player.statMana / Player.statManaMax2 * barLength);
             spriteBatch.Draw(Mana, Origin + new Vector2(BarX, 98 * Scale), new Rectangle(0, 0, currentLength, 16), Scale);
-            currentLength = (int)Math.Round((decimal)Character.XP / Character.XPToLevel() * barLength);
-            spriteBatch.Draw(XP, Origin + new Vector2(BarX, 126 * Scale), new Rectangle(0, 0, currentLength, 8), Scale);
+            if (Character.XPToLevel() > 0)
+            {
+                currentLength = (int)Math.Round((decimal)Character.XP / Character.XPToLevel() * barLength);
+                spriteBatch.Draw(XP, Origin + new Vector2(BarX, 126 * Scale), new Rectangle(0, 0, currentLength, 8), Scale);
+            }
             spriteBatch.Draw(BarCovers, Origin + new Vector2(302, 68) * Scale, Scale);
 
             spriteBatch.DrawStringWithShadow(Main.fontMouseText, $"{Player.statLife} / {Player.statLifeMax2}", Origin + new Vector2(BarX + 16f * Scale, 72f * Scale), Color.White, 0.8f * Scale);

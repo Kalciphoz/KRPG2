@@ -1,5 +1,4 @@
 ﻿using KRPG2.Net;
-using KRPG2.Net.Players;
 using KRPG2.Players;
 using Terraria;
 using Terraria.ID;
@@ -62,7 +61,7 @@ namespace KRPG2.Inventory
                 {SAVE_KEY_UNLOCKED, Unlocked}
             };
 
-            for (int i = 0; i < Unlocked; i += 1)
+            for (int i = 0; i <= Unlocked; i += 1)
                 tag.Add(SAVE_KEY_PAGE + i, Page[i].Save());
 
             return tag;
@@ -72,7 +71,7 @@ namespace KRPG2.Inventory
         {
             Unlocked = tag.GetInt(SAVE_KEY_UNLOCKED);
 
-            for (int i = 0; i < Unlocked; i += 1)
+            for (int i = 0; i <= Unlocked; i += 1)
                 Page[i].Load(tag.GetCompound(SAVE_KEY_PAGE + i));
 
             OpenPage(0);
@@ -87,7 +86,8 @@ namespace KRPG2.Inventory
                 if (value == _activePage) return;
 
                 _activePage = value;
-                K2Player.SendIfLocal(new ChangeInventoryPage());
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                    K2Player.SendIfLocal(new ChangeInventoryPage());
             }
         }
         
@@ -99,7 +99,8 @@ namespace KRPG2.Inventory
                 if (value == _unlocked) return;
 
                 _unlocked = value;
-                K2Player.SendIfLocal(new SyncUnlockedTabs());
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                    K2Player.SendIfLocal(new SyncUnlockedTabs());
             }
         }
     }
