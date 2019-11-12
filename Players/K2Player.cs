@@ -66,7 +66,7 @@ namespace KRPG2.Players
 
         public override void OnEnterWorld(Player player)
         {
-            this.SendIfLocal(new ServerJoinSyncInventoryPagesPacket());
+            this.SendIfLocal(new ServerJoinSyncPacket());
         }
     }
 }
