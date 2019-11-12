@@ -1,4 +1,5 @@
 ﻿using KRPG2.Net;
+using KRPG2.Net.Players;
 using KRPG2.Players;
 using Terraria;
 using Terraria.ID;
@@ -86,8 +87,7 @@ namespace KRPG2.Inventory
                 if (value == _activePage) return;
 
                 _activePage = value;
-                if (Main.netMode == NetmodeID.MultiplayerClient)
-                    K2Player.SendIfLocal(new ChangeInventoryPage());
+                K2Player.SendIfLocal(new ChangeInventoryPage());
             }
         }
         
@@ -99,8 +99,7 @@ namespace KRPG2.Inventory
                 if (value == _unlocked) return;
 
                 _unlocked = value;
-                if (Main.netMode == NetmodeID.MultiplayerClient)
-                    K2Player.SendIfLocal(new SyncUnlockedTabs());
+                K2Player.SendIfLocal(new SyncUnlockedTabs());
             }
         }
     }
