@@ -17,7 +17,7 @@ namespace KRPG2.Net.Players
 
             foreach (AlignmentStat stat in ModPlayer.Character.AlignmentStats.Values)
                 if (stat.DoSave)
-                    modPacket.Write(stat.baseAmount);
+                    modPacket.Write(stat.BaseAmount);
 
             foreach (MinorStat stat in ModPlayer.Character.MinorStats.Values)
                 if (stat.DoSave)
@@ -37,7 +37,7 @@ namespace KRPG2.Net.Players
 
             foreach (AlignmentStat stat in ModPlayer.Character.AlignmentStats.Values)
                 if (stat.DoSave)
-                    stat.baseAmount = reader.ReadInt32();
+                    stat.BaseAmount = reader.ReadInt32();
 
             foreach (MinorStat stat in ModPlayer.Character.MinorStats.Values)
                 if (stat.DoSave)
