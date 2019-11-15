@@ -40,6 +40,7 @@ namespace KRPG2.GFX
                     krpg2.LogError($"Could not retrieve texture '{path}'. " + e.ToString());
                     throw e;
                 }
+
                 texturesByPath.Add(path, texture);
             }
             return texturesByPath[path];
