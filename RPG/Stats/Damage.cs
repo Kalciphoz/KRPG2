@@ -7,9 +7,9 @@ namespace KRPG2.RPG.Stats
     {
         protected override float Default => 1f;
 
-        public Damage() : base("Damage")
-        {
-        }
+        protected override string StatPageLine => "Damage:";
+
+        public Damage() : base("Damage") { }
 
         protected override void Update(Player player, K2Player k2player, RPGCharacter character)
         {

@@ -9,12 +9,12 @@ namespace KRPG2.RPG.Leveling
     public class LevelLocks
     {
         internal static Dictionary<Predicate<NPC>, int> levelPlateaus;
-        internal static List<int> softXPCaps;
+        internal static List<int> softLevelCaps;
 
         internal static void Load()
         {
             levelPlateaus = new Dictionary<Predicate<NPC>, int>();
-            softXPCaps = new List<int>();
+            softLevelCaps = new List<int>();
 
             Add(npc => 
                 npc.type == NPCID.EyeofCthulhu || npc.type == NPCID.BrainofCthulhu || npc.type == NPCID.EaterofWorldsHead && !Main.npc.AnyActive(n => n.type == NPCID.EaterofWorldsBody),
@@ -33,16 +33,16 @@ namespace KRPG2.RPG.Leveling
         internal static void Unload()
         {
             levelPlateaus = null;
-            softXPCaps = new List<int>();
+            softLevelCaps = new List<int>();
         }
 
         public static void Add(Predicate<NPC> unlockCondition, int lockAt)
         {
             levelPlateaus.Add(unlockCondition, lockAt);
-            softXPCaps.Add(lockAt);
+            softLevelCaps.Add(lockAt);
         }
 
         public static bool Contains(int level) => 
-            softXPCaps.Contains(level);
+            softLevelCaps.Contains(level);
     }
 }

@@ -70,12 +70,12 @@ namespace KRPG2.GUI
             if (Player.lavaTime < Player.lavaMax)
             {
                 int currentBubbles = (int)Math.Round((decimal)bubbles_length * Player.lavaTime / Player.lavaMax);
-                spriteBatch.Draw(Bubbles, Origin + bubbles_origin * Scale, new Rectangle(0, 0, currentBubbles, bubbles_thickness), Scale);
+                spriteBatch.Draw(BubblesLava, Origin + bubbles_origin * Scale, new Rectangle(0, 0, currentBubbles, bubbles_thickness), Scale);
             }
             if (Player.breath < Player.breathMax)
             {
                 int currentBubbles = (int)Math.Round((decimal)bubbles_length * Player.breath / Player.breathMax);
-                spriteBatch.Draw(BubblesLava, Origin + bubbles_origin * Scale, new Rectangle(0, 0, currentBubbles, bubbles_thickness), Scale);
+                spriteBatch.Draw(Bubbles, Origin + bubbles_origin * Scale, new Rectangle(0, 0, currentBubbles, bubbles_thickness), Scale);
             }
         }
 

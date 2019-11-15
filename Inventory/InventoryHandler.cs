@@ -77,6 +77,7 @@ namespace KRPG2.Inventory
                 Page[i].Load(tag.GetCompound(SAVE_KEY_PAGE + i));
 
             OpenPage(0);
+            statPage = true;
         }
 
 

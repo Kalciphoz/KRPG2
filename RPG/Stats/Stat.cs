@@ -1,4 +1,6 @@
 ﻿using KRPG2.Players;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader.IO;
 using WebmilioCommons.Managers;
@@ -17,6 +19,8 @@ namespace KRPG2.RPG.Stats
 
         public void Update(RPGCharacter character) => Update(character.Player, character.K2Player, character);
 
+        internal abstract void Draw(SpriteBatch spriteBatch, Vector2 position, float scale);
+
         internal abstract void ResetBonus();
 
         protected virtual void Update(Player player, K2Player k2player, RPGCharacter character) { }
@@ -28,5 +32,11 @@ namespace KRPG2.RPG.Stats
         public string UnlocalizedName { get; }
 
         public virtual bool DoSave => true;
+
+        public virtual bool DoDraw => true;
+
+        protected abstract string StatPageLine { get; }
+
+        protected virtual Color StatPageLineColor => Color.White;
     }
 }

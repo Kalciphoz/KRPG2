@@ -28,6 +28,7 @@ namespace KRPG2.GUI
 
         public InventoryGUI() : base()
         {
+            AddButton(new StatPageButton(Origin + new Vector2(142f, 102f)));
             AddButton(new InvPageButton(Origin + new Vector2(174f, 102f), 0));
             AddButton(new InvPageButton(Origin + new Vector2(206f, 102f), 1));
             AddButton(new InvPageButton(Origin + new Vector2(238f, 102f), 2));

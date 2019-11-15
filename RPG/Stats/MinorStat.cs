@@ -1,11 +1,15 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
 using Terraria.ModLoader.IO;
 
 namespace KRPG2.RPG.Stats
 {
     public abstract class MinorStat : Stat
     {
-        public virtual bool IntegersOnly => false;
+        protected virtual bool IntegersOnly => false;
+        public override bool DoSave => false;
 
         private float _baseAmount;
         public float BaseAmount
@@ -33,11 +37,27 @@ namespace KRPG2.RPG.Stats
         }
         public float Amount => BaseAmount + BonusAmount;
         protected virtual float Default => 0f;
-        public override bool DoSave => false;
+
+        protected virtual bool Percentage => true;
 
         protected MinorStat(string unlocalizedName) : base(unlocalizedName)
         {
             BaseAmount = Default;
+        }
+
+        protected virtual string ValueDisplay
+        {
+            get
+            {
+                int rounded = (int)Math.Round(Amount * 100);
+                return Percentage ? rounded.ToString() + "%" : (rounded / 100.0).ToString();
+            }
+        }
+
+        internal sealed override void Draw(SpriteBatch spriteBatch, Vector2 position, float scale)
+        {
+            spriteBatch.DrawStringWithShadow(Main.fontMouseText, StatPageLine, position, StatPageLineColor, scale);
+            spriteBatch.DrawStringWithShadow(Main.fontMouseText, ValueDisplay, position + new Vector2(0f, 120f) * scale, Color.White, scale);
         }
 
         internal sealed override void ResetBonus()

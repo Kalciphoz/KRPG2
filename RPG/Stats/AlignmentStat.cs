@@ -1,4 +1,7 @@
-﻿using Terraria.ModLoader.IO;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ModLoader.IO;
 
 namespace KRPG2.RPG.Stats
 {
@@ -16,6 +19,12 @@ namespace KRPG2.RPG.Stats
         internal sealed override void ResetBonus()
         {
             bonusAmount = 0;
+        }
+
+        internal sealed override void Draw(SpriteBatch spriteBatch, Vector2 position, float scale)
+        {
+            spriteBatch.DrawStringWithShadow(Main.fontMouseText, StatPageLine, position, StatPageLineColor, scale);
+            spriteBatch.DrawStringWithShadow(Main.fontMouseText, Amount.ToString(), position + new Vector2(0f, 120f) * scale, Color.White, scale);
         }
 
         public sealed override TagCompound Save()
