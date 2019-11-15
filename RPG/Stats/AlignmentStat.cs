@@ -7,18 +7,13 @@ namespace KRPG2.RPG.Stats
 {
     public abstract class AlignmentStat : Stat
     {
-        public int baseAmount = 0;
-        public int bonusAmount = 0;
-
-        public int Amount => baseAmount + bonusAmount;
-
         protected AlignmentStat(string unlocalizedName) : base(unlocalizedName)
         {
         }
 
         internal sealed override void ResetBonus()
         {
-            bonusAmount = 0;
+            BonusAmount = 0;
         }
 
         internal sealed override void Draw(SpriteBatch spriteBatch, Vector2 position, float scale)
@@ -32,7 +27,7 @@ namespace KRPG2.RPG.Stats
             if (!DoSave) return new TagCompound();
             TagCompound tag = new TagCompound
             {
-                {SAVE_KEY_AMOUNT, baseAmount}
+                {SAVE_KEY_AMOUNT, BaseAmount}
             };
 
             return tag;
@@ -40,7 +35,12 @@ namespace KRPG2.RPG.Stats
 
         public sealed override void Load(TagCompound tag)
         {
-            baseAmount = tag.GetInt(SAVE_KEY_AMOUNT);
+            BaseAmount = tag.GetInt(SAVE_KEY_AMOUNT);
         }
+
+        public int BaseAmount { get; set; }
+        public int BonusAmount { get; set; }
+
+        public int Amount => BaseAmount + BonusAmount;
     }
 }

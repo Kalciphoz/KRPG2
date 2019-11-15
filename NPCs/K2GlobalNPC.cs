@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using KRPG2.NPCs.Prefixes;
 using KRPG2.Players;
 using KRPG2.RPG;
 using KRPG2.RPG.Leveling;
@@ -11,15 +12,8 @@ using WebmilioCommons.Tinq;
 
 namespace KRPG2.NPCs
 {
-    public class K2LevelingNPC : GlobalNPC
+    public class K2GlobalNPC : GlobalNPC
     {
-        public override bool InstancePerEntity => true;
-
-        public bool Initialized { get; private set; }
-        public int Level { get; private set; }
-
-        private int defLife;
-
         public override void NPCLoot(NPC npc)
         {
             if (npc.lifeMax < 10) return;
@@ -27,7 +21,10 @@ namespace KRPG2.NPCs
             if (npc.townNPC) return;
 
             RPGCharacter character = K2Player.Get().Character;
-            int baseExp = (int)Math.Round(Level * Math.Pow(defLife, 0.5) / 4 + 3);
+            int baseExp = (int)Math.Round(Level * Math.Pow(OriginalLife, 0.5) / 4 + 3);
+
+            Prefix.NPCLoot(npc, character, ref baseExp);
+
             character.GainXP(baseExp * 2 / (Main.expertMode ? 3 : 2));
 
             if (npc.boss)
@@ -46,26 +43,62 @@ namespace KRPG2.NPCs
                     character.SetLevel(kvp.Value + 1);
         }
 
+
         public override bool PreAI(NPC npc)
         {
+            if (!Initialized)
+                Initialize(npc);
+
             Vector2 mousePosition = new Vector2(Main.mouseX, Main.mouseY);
 
             if (npc.Hitbox.Contains(mousePosition))
                 Main.hoverItemName = "kkekekekekkee";
 
-            return base.PreAI(npc);
+            return Prefix.PreAI(npc);
         }
 
         public override void PostAI(NPC npc)
         {
-            if (!Initialized)
-                Initialize(npc);
+            Prefix.PostAI(npc);
         }
+
+
+        #region Prefix Hooking
+
+        // Take methods out of here if they need to do more than just call the prefix.
+
+        public override void AI(NPC npc) => Prefix.AI(npc);
+
+        public override bool CheckActive(NPC npc) => Prefix.CheckAlive(npc);
+        public override bool CheckDead(NPC npc) => Prefix.CheckDead(npc);
+
+        public override bool? CanGoToStatue(NPC npc, bool toKingStatue) => Prefix.CanGoToStatue(npc, ref toKingStatue);
+
+        public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot) => Prefix.CanHitPlayer(npc, target, ref cooldownSlot);
+
+        public override bool? CanBeHitByItem(NPC npc, Player player, Item item) => Prefix.CanBeHitByItem(npc, player, item);
+
+        public override bool? CanBeHitByProjectile(NPC npc, Projectile projectile) => Prefix.CanBeHitByProjectile(npc, projectile);
+
+        #endregion
+
 
         public void Initialize(NPC npc)
         {
+            OriginalLife = npc.lifeMax;
+
+            if (npc.townNPC)
+                Prefix = NPCPrefixLoader.Instance.New<DefaultNPCPrefix>();
+            else
+                Prefix = NPCPrefixLoader.Instance.New<ExampleNPCPrefix>();
+
+            Prefix.Initialize(npc);
+
             SetLevel(npc);
-            defLife = npc.lifeMax;
+
+            if (!Prefix.Hidden)
+                npc.GivenName = Prefix.NamePrefix + npc.GivenName;
+
             Initialized = true;
         }
 
@@ -88,7 +121,19 @@ namespace KRPG2.NPCs
             else
                 total -= Math.Min(Math.Min(dmgLevel, lifeLevel), defenseLevel);
 
-            Level = (int)Math.Round(total / 2.0);
+            Level = Prefix.SetLevel(npc, (int)Math.Round(total / 2.0));
         }
+
+
+        public override bool InstancePerEntity => true;
+
+
+        public bool Initialized { get; private set; }
+
+        public int OriginalLife { get; set; }
+
+        public int Level { get; private set; }
+
+        public NPCPrefix Prefix { get; private set; }
     }
 }
