@@ -13,11 +13,6 @@ namespace KRPG2.NPCs
 {
     public class K2LevelingNPC : GlobalNPC
     {
-        public override bool InstancePerEntity => true;
-
-        public bool Initialized { get; private set; }
-        public int Level { get; private set; }
-
         private int defLife;
 
         public override void NPCLoot(NPC npc)
@@ -48,6 +43,9 @@ namespace KRPG2.NPCs
 
         public override bool PreAI(NPC npc)
         {
+            if (!Initialized)
+                Initialize(npc);
+
             Vector2 mousePosition = new Vector2(Main.mouseX, Main.mouseY);
 
             if (npc.Hitbox.Contains(mousePosition))
@@ -56,15 +54,10 @@ namespace KRPG2.NPCs
             return base.PreAI(npc);
         }
 
-        public override void PostAI(NPC npc)
-        {
-            if (!Initialized)
-                Initialize(npc);
-        }
-
         public void Initialize(NPC npc)
         {
             SetLevel(npc);
+
             defLife = npc.lifeMax;
             Initialized = true;
         }
@@ -90,5 +83,10 @@ namespace KRPG2.NPCs
 
             Level = (int)Math.Round(total / 2.0);
         }
+
+        public override bool InstancePerEntity => true;
+
+        public bool Initialized { get; private set; }
+        public int Level { get; private set; }
     }
 }
