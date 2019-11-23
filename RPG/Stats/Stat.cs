@@ -9,6 +9,12 @@ namespace KRPG2.RPG.Stats
 {
     public abstract class Stat : IHasUnlocalizedName
     {
+        public const int
+            DISPLAY_COLUMN_NONE = 0,
+            DISPLAY_COLUMN_OFFENSIVE = 1,
+            DISPLAY_COLUMN_DEFENSIVE = 2,
+            DISPLAY_COLUMN_MISCELLANEOUS = 3;
+
         protected const string
             SAVE_KEY_AMOUNT = "Amount";
 
@@ -33,7 +39,9 @@ namespace KRPG2.RPG.Stats
 
         public virtual bool DoSave => true;
 
-        public virtual bool DoDraw => true;
+        public virtual bool DoDraw => DisplayColumn != DISPLAY_COLUMN_NONE;
+
+        public abstract int DisplayColumn { get; }
 
         protected abstract string StatPageLine { get; }
 

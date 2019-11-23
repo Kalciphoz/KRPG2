@@ -25,7 +25,7 @@ namespace KRPG2.GUI.Buttons
             this.id = id;
         }
 
-        public override void Click()
+        protected override void Click()
         {
             K2Player.Inventory.OpenPage(id);
         }

@@ -19,8 +19,10 @@ namespace KRPG2.RPG.Stats
         internal sealed override void Draw(SpriteBatch spriteBatch, Vector2 position, float scale)
         {
             spriteBatch.DrawStringWithShadow(Main.fontMouseText, StatPageLine, position, StatPageLineColor, scale);
-            spriteBatch.DrawStringWithShadow(Main.fontMouseText, Amount.ToString(), position + new Vector2(0f, 120f) * scale, Color.White, scale);
+            spriteBatch.DrawStringWithShadow(Main.fontMouseText, Amount.ToString(), position + new Vector2(120f, 0f) * scale, Color.White, scale);
         }
+
+        public override int DisplayColumn => DISPLAY_COLUMN_OFFENSIVE;
 
         public sealed override TagCompound Save()
         {

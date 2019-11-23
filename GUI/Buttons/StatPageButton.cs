@@ -22,7 +22,7 @@ namespace KRPG2.GUI.Buttons
 
         public StatPageButton(Vector2 position) : base(position) { }
 
-        public override void Click()
+        protected override void Click()
         {
             K2Player.Inventory.statPage = true;
         }

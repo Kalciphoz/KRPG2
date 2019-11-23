@@ -12,6 +12,7 @@ namespace KRPG2.GUI.Buttons
     public abstract class Button
     {
         public virtual bool Toggled => toggled;
+        public bool Hover => Texture.Bounds.Contains(Main.MouseScreen - Position);
 
         protected readonly KRPG2 krpg2;
         protected Player Player => Main.LocalPlayer;
@@ -29,6 +30,8 @@ namespace KRPG2.GUI.Buttons
 
         protected virtual bool Toggleable => false;
         protected virtual bool Enabled => true;
+        protected virtual bool CanClick => Enabled;
+        protected virtual bool CanRightClick => false;
 
         protected bool toggled = false;
 
@@ -45,30 +48,39 @@ namespace KRPG2.GUI.Buttons
         public void Update(SpriteBatch spriteBatch)
         {
             Draw(spriteBatch);
-            if (Texture.Bounds.Contains(Main.MouseScreen - Position))
+            if (Hover)
             {
                 Player.mouseInterface = true;
-                if (Main.mouseLeft && Enabled)
+                if (Main.mouseLeft && CanClick)
+                {
                     if (Toggleable || Texture_Pressed == null ? !oldMouseLeft : Main.mouseLeftRelease)
                     {
                         Main.PlaySound(SoundID.MenuTick);
                         Click();
                     }
+                }
+                else if (Main.mouseRight && CanRightClick && Main.mouseRightRelease)
+                {
+                    Main.PlaySound(SoundID.MenuTick);
+                    RightClick();
+                }
             }
 
             oldMouseLeft = Main.mouseLeft;
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch)
+        protected virtual void Draw(SpriteBatch spriteBatch)
         {
             if (!Enabled && Texture_Disabled != null)
                 spriteBatch.Draw(Texture_Disabled, position, Scale);
-            else if (Toggled && Texture_Pressed != null || Texture.Bounds.Contains(Main.MouseScreen - Position) && Main.mouseLeft)
+            else if (Toggled && Texture_Pressed != null || Hover && Main.mouseLeft)
                 spriteBatch.Draw(Texture_Pressed, position, Scale);
             else
                 spriteBatch.Draw(Texture, position, Scale);
         }
 
-        public abstract void Click();
+        protected virtual void RightClick() { }
+
+        protected abstract void Click();
     }
 }

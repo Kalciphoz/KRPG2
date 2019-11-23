@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using KRPG2.GFX;
 using KRPG2.GUI.Buttons;
+using KRPG2.RPG.Stats;
 
 namespace KRPG2.GUI
 {
@@ -64,6 +66,30 @@ namespace KRPG2.GUI
             var panel_origin = Origin + new Vector2(56, 146) * Scale;
             spriteBatch.Draw(Panel, panel_origin, Scale);
             spriteBatch.DrawStringWithShadow(Main.fontMouseText, (Character.XPToLevel() - Character.XP).ToString() + " XP to level", panel_origin + new Vector2(24f, 24f) * Scale, Color.White, 0.8f * Scale);
+            var lines_origin = panel_origin + new Vector2(24f, 40f);
+            int pos = 0;
+            foreach (Stat stat in Character.AlignmentStats.Values.Where(s => s.DoDraw))
+            {
+                stat.Draw(spriteBatch, lines_origin + new Vector2(0f, pos * 18f) * Scale, 0.8f * Scale);
+                pos += 1;
+            }
+            foreach (Stat stat in Character.MinorStats.Values.Where(s => s.DoDraw && s.DisplayColumn == Stat.DISPLAY_COLUMN_OFFENSIVE))
+            {
+                stat.Draw(spriteBatch, lines_origin + new Vector2(0f, pos * 18f) * Scale, 0.8f * Scale);
+                pos += 1;
+            }
+            pos = 0;
+            foreach (Stat stat in Character.MinorStats.Values.Where(s => s.DoDraw && s.DisplayColumn == Stat.DISPLAY_COLUMN_DEFENSIVE))
+            {
+                stat.Draw(spriteBatch, lines_origin + new Vector2(160f, pos * 18f) * Scale, 0.8f * Scale);
+                pos += 1;
+            }
+            pos = 0;
+            foreach (Stat stat in Character.MinorStats.Values.Where(s => s.DoDraw && s.DisplayColumn == Stat.DISPLAY_COLUMN_MISCELLANEOUS))
+            {
+                stat.Draw(spriteBatch, lines_origin + new Vector2(320f, pos * 18f) * Scale, 0.8f * Scale);
+                pos += 1;
+            }
         }
     }
 }

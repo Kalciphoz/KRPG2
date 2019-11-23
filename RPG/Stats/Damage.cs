@@ -7,6 +7,8 @@ namespace KRPG2.RPG.Stats
     {
         protected override float Default => 1f;
 
+        public override int DisplayColumn => DISPLAY_COLUMN_OFFENSIVE;
+
         protected override string StatPageLine => "Damage:";
 
         public Damage() : base("Damage") { }

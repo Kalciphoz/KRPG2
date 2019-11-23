@@ -179,5 +179,17 @@ namespace KRPG2.RPG
                 K2Player.SendIfLocal(new SyncLevelPacket());
             }
         }
+
+        public int UnspentStatPoints
+        {
+            get
+            {
+                int total = 0;
+                foreach (AlignmentStat stat in AlignmentStats.Values)
+                    total += stat.BaseAmount;
+
+                return Level - 1 - total;
+            }
+        }
     }
 }

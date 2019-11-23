@@ -37,8 +37,7 @@ namespace KRPG2.NPCs.Prefixes
             return null;
         }
 
-
-        public override void PreLoad()
+        public override void PostLoad() //PreLoad()
         {
             _typeByCommonness = new Dictionary<float, List<Type>>();
         }
