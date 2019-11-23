@@ -1,8 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using KRPG2.Net.Players;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader.IO;
+using WebmilioCommons.Extensions;
 
 namespace KRPG2.RPG.Stats
 {
@@ -17,10 +19,15 @@ namespace KRPG2.RPG.Stats
             get => _baseAmount;
             set
             {
+                if (_baseAmount == value) return;
+
                 if (IntegersOnly && value != Math.Floor(value))
                     throw new Exception("This stat uses integer values only!");
                 else
+                {
                     _baseAmount = value;
+                    K2Player.SendIfLocal(new SyncMinorStatPacket(this));
+                }
             }
         }
         private float _bonusAmount = 0f;
@@ -40,7 +47,7 @@ namespace KRPG2.RPG.Stats
 
         protected virtual bool Percentage => true;
 
-        protected MinorStat(string unlocalizedName) : base(unlocalizedName)
+        protected MinorStat(RPGCharacter character, string unlocalizedName) : base(character, unlocalizedName)
         {
             BaseAmount = Default;
         }
@@ -56,7 +63,7 @@ namespace KRPG2.RPG.Stats
 
         internal sealed override void Draw(SpriteBatch spriteBatch, Vector2 position, float scale)
         {
-            spriteBatch.DrawStringWithShadow(Main.fontMouseText, StatPageLine, position, StatPageLineColor, scale);
+            spriteBatch.DrawStringWithShadow(Main.fontMouseText, DisplayName, position, StatColor, scale);
             spriteBatch.DrawStringWithShadow(Main.fontMouseText, ValueDisplay, position + new Vector2(120f, 0f) * scale, Color.White, scale);
         }
 

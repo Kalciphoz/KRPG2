@@ -8,6 +8,8 @@ namespace KRPG2.GUI.Buttons
     {
         protected override Texture2D Texture => GetTexture("Flames_Might");
 
+        protected override string EffectSummary => "Increases your damage, mana, and mana regen";
+
         internal MightFlame(StatAllocationGUI gui, Might stat, Vector2 position) : base(gui, stat, position) { }
     }
 }

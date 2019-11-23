@@ -12,7 +12,7 @@ namespace KRPG2.GUI.Buttons
     public abstract class Button
     {
         public virtual bool Toggled => toggled;
-        public bool Hover => Texture.Bounds.Contains(Main.MouseScreen - Position);
+        public bool Hover => Texture.Bounds.Contains((Main.MouseScreen - Position) / Scale);
 
         protected readonly KRPG2 krpg2;
         protected Player Player => Main.LocalPlayer;
@@ -24,6 +24,7 @@ namespace KRPG2.GUI.Buttons
         protected abstract Texture2D Texture { get; }
         protected virtual Texture2D Texture_Pressed => null;
         protected virtual Texture2D Texture_Disabled => null;
+        protected virtual string HoverText => null;
 
         protected virtual Vector2 Position => position;
         private readonly Vector2 position;
@@ -71,8 +72,13 @@ namespace KRPG2.GUI.Buttons
 
         protected virtual void Draw(SpriteBatch spriteBatch)
         {
-            if (!Enabled && Texture_Disabled != null)
-                spriteBatch.Draw(Texture_Disabled, position, Scale);
+            if (!Enabled)
+            {
+                if (Texture_Disabled == null)
+                    return;
+                else
+                    spriteBatch.Draw(Texture_Disabled, position, Scale);
+            }
             else if (Toggled && Texture_Pressed != null || Hover && Main.mouseLeft)
                 spriteBatch.Draw(Texture_Pressed, position, Scale);
             else

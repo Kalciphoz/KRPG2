@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using KRPG2.GUI;
 using KRPG2.Inventory;
 using KRPG2.Net.Players;
@@ -26,6 +27,7 @@ namespace KRPG2.Players
 
 
         public static K2Player Get() => Get(Main.LocalPlayer);
+
         public static K2Player Get(Player player) => player.GetModPlayer<K2Player>();
 
         public K2Player() : base() { }
@@ -40,6 +42,11 @@ namespace KRPG2.Players
 
             if (!Main.dedServ && player.IsLocalPlayer())
                 _guiHandler = new GUIHandler();
+        }
+
+        internal void OpenStatAllocationGUI()
+        {
+            _guiHandler.OpenStatAllocationGUI();
         }
 
         public override void PostUpdateEquips()

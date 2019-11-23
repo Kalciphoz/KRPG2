@@ -7,15 +7,15 @@ namespace KRPG2.RPG.Stats
     {
         protected override float Default => 1f;
 
-        public override int DisplayColumn => DISPLAY_COLUMN_OFFENSIVE;
+        public override int StatPageColumn => STATPAGE_COLUMN_OFFENSIVE;
 
-        protected override string StatPageLine => "Damage:";
+        public override string DisplayName => "Damage";
 
-        public Damage() : base("Damage") { }
+        public Damage(RPGCharacter character) : base(character, "Damage") { }
 
-        protected override void Update(Player player, K2Player k2player, RPGCharacter character)
+        public override void Update()
         {
-            player.allDamageMult *= Amount;
+            Player.allDamageMult *= Amount;
         }
     }
 }

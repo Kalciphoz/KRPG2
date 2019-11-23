@@ -4,10 +4,10 @@
     {
         protected override float Default => 0.5f;
 
-        public override int DisplayColumn => DISPLAY_COLUMN_DEFENSIVE;
+        public override int StatPageColumn => STATPAGE_COLUMN_DEFENSIVE;
 
-        protected override string StatPageLine => "Life regen:";
+        public override string DisplayName => "Life regen";
 
-        public LifeRegen() : base("LifeRegen") { }
+        public LifeRegen(RPGCharacter character) : base(character, "LifeRegen") { }
     }
 }

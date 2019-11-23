@@ -8,6 +8,8 @@ namespace KRPG2.GUI.Buttons
     {
         protected override Texture2D Texture => GetTexture("Flames_Stoicism");
 
+        protected override string EffectSummary => "Increases your life, defence, life regen, and stun resistance";
+
         internal StoicismFlame (StatAllocationGUI gui, Stoicism stat, Vector2 position) : base(gui, stat, position) { }
     }
 }

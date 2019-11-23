@@ -16,7 +16,7 @@ namespace KRPG2.GUI
         private const int barLength = 192;
         private float BarX => 314f * Scale;
 
-        public Vector2 Origin => new Vector2(40f, 8f) * Scale;
+        private Vector2 Origin => new Vector2(40f, 8f) * Scale;
 
         private Texture2D Frame => GetTexture("Frame");
         private Texture2D Panel => GetTexture("Panel");
@@ -34,6 +34,8 @@ namespace KRPG2.GUI
             AddButton(new InvPageButton(Origin + new Vector2(174f, 102f), 0));
             AddButton(new InvPageButton(Origin + new Vector2(206f, 102f), 1));
             AddButton(new InvPageButton(Origin + new Vector2(238f, 102f), 2));
+
+            AddButton(new UnspentPoints_Inventory(Origin + new Vector2(538f, 76f) * Scale));
         }
 
         protected override void Draw(SpriteBatch spriteBatch)
@@ -73,19 +75,19 @@ namespace KRPG2.GUI
                 stat.Draw(spriteBatch, lines_origin + new Vector2(0f, pos * 18f) * Scale, 0.8f * Scale);
                 pos += 1;
             }
-            foreach (Stat stat in Character.MinorStats.Values.Where(s => s.DoDraw && s.DisplayColumn == Stat.DISPLAY_COLUMN_OFFENSIVE))
+            foreach (Stat stat in Character.MinorStats.Values.Where(s => s.DoDraw && s.StatPageColumn == Stat.STATPAGE_COLUMN_OFFENSIVE))
             {
                 stat.Draw(spriteBatch, lines_origin + new Vector2(0f, pos * 18f) * Scale, 0.8f * Scale);
                 pos += 1;
             }
             pos = 0;
-            foreach (Stat stat in Character.MinorStats.Values.Where(s => s.DoDraw && s.DisplayColumn == Stat.DISPLAY_COLUMN_DEFENSIVE))
+            foreach (Stat stat in Character.MinorStats.Values.Where(s => s.DoDraw && s.StatPageColumn == Stat.STATPAGE_COLUMN_DEFENSIVE))
             {
                 stat.Draw(spriteBatch, lines_origin + new Vector2(160f, pos * 18f) * Scale, 0.8f * Scale);
                 pos += 1;
             }
             pos = 0;
-            foreach (Stat stat in Character.MinorStats.Values.Where(s => s.DoDraw && s.DisplayColumn == Stat.DISPLAY_COLUMN_MISCELLANEOUS))
+            foreach (Stat stat in Character.MinorStats.Values.Where(s => s.DoDraw && s.StatPageColumn == Stat.STATPAGE_COLUMN_MISCELLANEOUS))
             {
                 stat.Draw(spriteBatch, lines_origin + new Vector2(320f, pos * 18f) * Scale, 0.8f * Scale);
                 pos += 1;

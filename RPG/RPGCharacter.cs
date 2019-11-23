@@ -44,15 +44,15 @@ namespace KRPG2.RPG
 
             AlignmentStats = new Dictionary<Type, AlignmentStat>
             {
-                { typeof(Stoicism), new Stoicism() },
-                { typeof(Acuity), new Acuity() },
-                { typeof(Might), new Might() }
+                { typeof(Stoicism), new Stoicism(this) },
+                { typeof(Acuity), new Acuity(this) },
+                { typeof(Might), new Might(this) }
             };
 
             MinorStats = new Dictionary<Type, MinorStat>
             {
-                { typeof(LifeRegen), new LifeRegen() },
-                { typeof(Damage), new Damage() }
+                { typeof(LifeRegen), new LifeRegen(this) },
+                { typeof(Damage), new Damage(this) }
             };
         }
 
@@ -60,7 +60,7 @@ namespace KRPG2.RPG
         {
             foreach (AlignmentStat stat in AlignmentStats.Values)
             {
-                stat.Update(this);
+                stat.Update();
             }
 
             Player.statLifeMax2 += Level * 5;
@@ -73,7 +73,7 @@ namespace KRPG2.RPG
 
             foreach (MinorStat stat in MinorStats.Values)
             {
-                stat.Update(this);
+                stat.Update();
             }
         }
 

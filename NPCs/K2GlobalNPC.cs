@@ -87,10 +87,7 @@ namespace KRPG2.NPCs
         {
             OriginalLife = npc.lifeMax;
 
-            if (npc.townNPC)
-                Prefix = NPCPrefixLoader.Instance.New<DefaultNPCPrefix>();
-            else
-                Prefix = NPCPrefixLoader.Instance.New<ExampleNPCPrefix>();
+            Prefix = NPCPrefixLoader.Instance.New<ExampleNPCPrefix>();
 
             Prefix.Initialize(npc);
 

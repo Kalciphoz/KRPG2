@@ -1,0 +1,7 @@
+2019-11-23 05:55:05 PM
+System.TypeInitializationException: The type initializer for 'Terraria.Main' threw an exception. ---> System.OutOfMemoryException: Exception of type 'System.OutOfMemoryException' was thrown.
+   at Terraria.Main..cctor()
+   --- End of inner exception stack trace ---
+   at Terraria.Main..ctor()
+   at Terraria.Program.LaunchGame_()
+

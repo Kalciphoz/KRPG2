@@ -6,15 +6,15 @@ namespace KRPG2.RPG.Stats
 {
     public class Stoicism : AlignmentStat
     {
-        public Stoicism() : base("Stoicism") { }
+        public Stoicism(RPGCharacter character) : base(character, "Stoicism") { }
 
-        protected override string StatPageLine => "Stoicism:";
-        protected override Color StatPageLineColor => new Color(223, 0, 0);
+        public override string DisplayName => "Stoicism";
+        public override Color StatColor => new Color(223, 0, 0);
 
-        protected override void Update(Player player, K2Player k2player, RPGCharacter character)
+        public override void Update()
         {
-            player.statLifeMax2 += 115 + Amount * 10 - player.statLifeMax;
-            player.statDefense += Amount;
+            Player.statLifeMax2 += 115 + Amount * 10 - Player.statLifeMax;
+            Player.statDefense += Amount;
             character.MinorStats[typeof(LifeRegen)].BonusAmount += 0.3f * Amount;
         }
     }

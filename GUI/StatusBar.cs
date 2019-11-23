@@ -5,6 +5,7 @@ using Terraria;
 using KRPG2.GFX;
 using KRPG2.Players;
 using KRPG2.RPG;
+using KRPG2.GUI.Buttons;
 
 namespace KRPG2.GUI
 {
@@ -38,6 +39,11 @@ namespace KRPG2.GUI
 
         private static Texture2D GetTexture(string texture) => GraphicsHandler.GetGUI(KRPG2.Instance, "StatusBar/" + texture);
         private static Texture2D GetNumeral(string texture) => GetTexture("Numerals/" + texture);
+
+        public StatusBar()
+        {
+            AddButton(new UnspentPoints_StatusBar(Origin + new Vector2(242f, 112f) * Scale));
+        }
 
         protected override void Draw(SpriteBatch spriteBatch)
         {

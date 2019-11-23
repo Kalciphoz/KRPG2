@@ -7,14 +7,14 @@ namespace KRPG2.RPG.Stats
 {
     public class Acuity : AlignmentStat
     {
-        public Acuity() : base("Acuity") { }
+        public Acuity(RPGCharacter character) : base(character, "Acuity") { }
 
-        protected override string StatPageLine => "Acuity:";
-        protected override Color StatPageLineColor => new Color(0, 191, 31);
+        public override string DisplayName => "Acuity";
+        public override Color StatColor => new Color(0, 191, 31);
 
-        protected override void Update(Player player, K2Player k2player, RPGCharacter character)
+        public override void Update()
         {
-            player.moveSpeed *= 1f + Math.Min(1.2f, Amount * 0.03f);
+            Player.moveSpeed *= 1f + Math.Min(1.2f, Amount * 0.03f);
         }
     }
 }

@@ -20,10 +20,10 @@ namespace KRPG2.GUI.Buttons
             frameTime = 5,
             frameCount = 8;
 
+        public readonly AlignmentStat stat;
         public int Allocated { get; private set; } = 0;
 
         private readonly StatAllocationGUI gui;
-        private readonly AlignmentStat stat;
 
         protected sealed override bool CanClick => gui.TotalAllocated < Character.UnspentStatPoints;
         protected sealed override bool CanRightClick => Allocated > 0;
@@ -38,6 +38,17 @@ namespace KRPG2.GUI.Buttons
             this.stat = stat;
         }
 
+        internal void Allocate()
+        {
+            Character.AlignmentStats[stat.GetType()].BaseAmount += Allocated;
+            Reset();
+        }
+
+        internal void Reset()
+        {
+            Allocated = 0;
+        }
+
         protected sealed override void Draw(SpriteBatch spriteBatch)
         {
             if (animationCounter > frameCount * frameTime - 1)
@@ -50,7 +61,16 @@ namespace KRPG2.GUI.Buttons
             string displayedAmount = (Allocated + stat.BaseAmount).ToString();
             float width = Main.fontItemStack.MeasureString(displayedAmount).X;
             spriteBatch.DrawStringWithShadow(Main.fontItemStack, displayedAmount, Position + new Vector2(28f - width / 2, 36f) * Scale, Allocated > 0 ? Color.Lime : Color.White);
+
+            if (Hover)
+            {
+                Vector2 position = new Vector2(Main.screenWidth / 2f - 96f, Main.screenHeight / 2f + 128f);
+                spriteBatch.DrawStringWithShadow(Main.fontMouseText, stat.DisplayName, position, stat.StatColor);
+                spriteBatch.DrawStringWithShadow(Main.fontMouseText, EffectSummary, position + new Vector2(-32f, 24f), Color.White);
+            }
         }
+
+        protected abstract string EffectSummary { get; }
 
         protected sealed override void Click()
         {
