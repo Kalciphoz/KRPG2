@@ -19,7 +19,7 @@ namespace KRPG2.Net.Players
             set;
         }
 
-        public override bool PostReceive(BinaryReader reader, int fromWho)
+        protected override bool PostReceive(BinaryReader reader, int fromWho)
         {
             ModPlayer.Character.GainXP(XP, false);
             return base.PostReceive(reader, fromWho);

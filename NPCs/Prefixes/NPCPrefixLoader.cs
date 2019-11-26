@@ -10,7 +10,7 @@ namespace KRPG2.NPCs.Prefixes
         private Dictionary<float, List<Type>> _typeByCommonness = new Dictionary<float, List<Type>>();
 
 
-        protected override void PostAdd(Mod mod, NPCPrefix item)
+        protected override void PostAdd(Mod mod, NPCPrefix item, Type type)
         {
             if (item.Rarity <= 0)
                 return;

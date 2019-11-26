@@ -15,45 +15,37 @@ namespace KRPG2.RPG
 {
     public sealed partial class RPGCharacter
     {
+        private Dictionary<string, Stat> _statsByName;
+
+
         public K2Player K2Player => K2Player.Get(Player);
         public Player Player { get; private set; }
 
         public long XP { get; set; }
         private int _level = 1;
 
-        public Dictionary<Type, AlignmentStat> AlignmentStats { get; private set; }
-        public Dictionary<Type, MinorStat> MinorStats { get; private set; }
 
         private int levelAnimation = 60;
 
+
         private Texture2D LevelUpAnimation => GraphicsHandler.GetGFX(KRPG2.Instance, "LevelUp");
         private SoundEffect bling;
-        private SoundEffect LevelUpBling
-        {
-            get
-            {
-                if (bling == null)
-                    bling = KRPG2.Instance.GetSound("SFX/LevelUp");
-                return bling;
-            }
-        }
+        
 
         public RPGCharacter(Player player)
         {
             Player = player;
 
-            AlignmentStats = new Dictionary<Type, AlignmentStat>
-            {
-                { typeof(Stoicism), new Stoicism(this) },
-                { typeof(Acuity), new Acuity(this) },
-                { typeof(Might), new Might(this) }
-            };
+            AlignmentStats = new Dictionary<Type, AlignmentStat>();
 
-            MinorStats = new Dictionary<Type, MinorStat>
-            {
-                { typeof(LifeRegen), new LifeRegen(this) },
-                { typeof(Damage), new Damage(this) }
-            };
+            AddAlignmentStat(new Stoicism(this));
+            AddAlignmentStat(new Acuity(this));
+            AddAlignmentStat(new Might(this));
+
+            MinorStats = new Dictionary<Type, MinorStat>();
+
+            AddMinorStat(new LifeRegen(this));
+            AddMinorStat(new Damage(this));
         }
 
         public void UpdateStats()
@@ -77,6 +69,30 @@ namespace KRPG2.RPG
             }
         }
 
+        public void AddAlignmentStat(AlignmentStat alignmentStat)
+        {
+            AlignmentStats.Add(alignmentStat.GetType(), alignmentStat);
+            AddStat(alignmentStat);
+        }
+
+        public void AddMinorStat(MinorStat minorStat)
+        {
+            MinorStats.Add(minorStat.GetType(), minorStat);
+            AddStat(minorStat);
+        }
+
+        private void AddStat(Stat stat)
+        {
+            if (_statsByName.ContainsKey(stat.UnlocalizedName))
+                throw new ArgumentException();
+
+            _statsByName.Add(stat.UnlocalizedName, stat);
+        }
+
+
+        public Stat GetStat(string unlocalizedName) => _statsByName[unlocalizedName];
+
+
         public void GainXP(int amount, bool first = true)
         {
             if (XPToLevel() == -1)
@@ -95,44 +111,6 @@ namespace KRPG2.RPG
 
             if (first) 
                 CombatText.NewText(Player.getRect(), new Color(127, 159, 255), amount + " XP");
-        }
-
-        public void LevelUp(int level = 1)
-        {
-            if (level < 1)
-                throw new ArgumentException($"{nameof(level)} must be a positive integer.");
-
-            Level += level;
-
-            if (!Main.gameMenu) 
-                LevelUpBling.Play(0.5f * Main.soundVolume, 0f, 0f);
-
-            levelAnimation = 0;
-        }
-
-        public void SetLevel(int level, bool allowDowngrade = false)
-        {
-            if (level < Level && !allowDowngrade)
-                return;
-
-            Level = level;
-        }
-
-        public void DrawLevelAnimation(ref bool fullBright)
-        {
-            if (levelAnimation < 60)
-            {
-                if (levelAnimation < 24)
-                {
-                    fullBright = true;
-                    Lighting.AddLight(Player.position, 0.9f, 0.9f, 0.9f);
-                }
-                else 
-                    Lighting.AddLight(Player.position, 0.4f, 0.4f, 0.4f);
-                
-                Main.spriteBatch.Draw(LevelUpAnimation, Player.Bottom - new Vector2(48, 108) - Main.screenPosition, new Rectangle(0, levelAnimation / 3 * 96, 96, 96), Color.White);
-                levelAnimation += 1;
-            }
         }
 
         public long XPToLevel() => XPToLevel(Level);
@@ -167,7 +145,48 @@ namespace KRPG2.RPG
 
             return -1;
         }
-        
+
+
+        public void LevelUp(int level = 1)
+        {
+            if (level < 1)
+                throw new ArgumentException($"{nameof(level)} must be a positive integer.");
+
+            Level += level;
+
+            if (!Main.gameMenu) 
+                LevelUpBling.Play(0.5f * Main.soundVolume, 0f, 0f);
+
+            levelAnimation = 0;
+        }
+
+        public void SetLevel(int level, bool allowDowngrade = false)
+        {
+            if (level < Level && !allowDowngrade)
+                return;
+
+            Level = level;
+        }
+
+
+        public void DrawLevelAnimation(ref bool fullBright)
+        {
+            if (levelAnimation < 60)
+            {
+                if (levelAnimation < 24)
+                {
+                    fullBright = true;
+                    Lighting.AddLight(Player.position, 0.9f, 0.9f, 0.9f);
+                }
+                else 
+                    Lighting.AddLight(Player.position, 0.4f, 0.4f, 0.4f);
+                
+                Main.spriteBatch.Draw(LevelUpAnimation, Player.Bottom - new Vector2(48, 108) - Main.screenPosition, new Rectangle(0, levelAnimation / 3 * 96, 96, 96), Color.White);
+                levelAnimation += 1;
+            }
+        }
+
+
         public int Level
         {
             get => _level;
@@ -180,16 +199,21 @@ namespace KRPG2.RPG
             }
         }
 
+        public Dictionary<Type, AlignmentStat> AlignmentStats { get; private set; }
+        public Dictionary<Type, MinorStat> MinorStats { get; private set; }
+
         public int UnspentStatPoints
         {
             get
             {
                 int total = 0;
                 foreach (AlignmentStat stat in AlignmentStats.Values)
-                    total += stat.BaseAmount;
+                    total += (int) (stat.BaseAmount);
 
                 return Level - 1 - total;
             }
         }
+
+        private SoundEffect LevelUpBling => bling ?? (bling = KRPG2.Instance.GetSound("SFX/LevelUp"));
     }
 }
